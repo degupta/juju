@@ -32,7 +32,7 @@ public class BubbleView extends View {
 		@Override
 		public void run() {
 			for (int i = 0; i < NUM_CIRCLES; i++) {
-				updateCircle(CIRCLES[i], 100);
+				updateCircle(CIRCLES[i], 50);
 			}
 			invalidate();
 			postDelayed(this, 50);
