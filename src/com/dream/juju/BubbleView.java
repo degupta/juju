@@ -24,10 +24,14 @@ public class BubbleView extends View {
 	public static final int NUM_SUB_GROUPS = 5;
 	public static final float MIN_RADIUS = 50f;
 	public static final float MAX_RADIUS = 150f;
+	public static final float MIN_ALPHA = 0.1f;
+	public static final float MAX_ALPHA = 0.75f;
 	public static final float SPEED = -0.1f;
 	public static final float GROUP_HEIGHT = 1000.0f;
+	public static final float GROUP_OVERLAP = 100.0f;
 
 	public static final float RADIUS_DIFF = MAX_RADIUS - MIN_RADIUS;
+	public static final float ALPHA_DIFF = MAX_ALPHA - MIN_ALPHA;
 
 	public static final CircleGroup[] CIRCLE_GROUPS = new CircleGroup[NUM_CIRCLE_GROUPS];
 	public static final Paint PAINT = new Paint();
@@ -88,11 +92,17 @@ public class BubbleView extends View {
 				circles[i] = new Circle();
 				c = circles[i];
 			}
-			c.color = color
-					| ((((int) (Math.random() * 255)) << 24) & 0xFF000000);
+			int alpha = (int) ((Math.random() * ALPHA_DIFF + MIN_ALPHA) * 255.0f);
+			c.color = color | ((alpha << 24) & 0xFF000000);
 			c.radius = (float) (Math.random() * RADIUS_DIFF + MIN_RADIUS);
 			c.x = (float) ((2 * Math.random() - 1) * halfWidth * 0.1f + halfWidth);
 			c.y = (float) (Math.random() * GROUP_HEIGHT);
+			if (c.y + c.radius > GROUP_HEIGHT + GROUP_OVERLAP) {
+				c.y = GROUP_HEIGHT - c.radius;
+			}
+			if (c.y - c.radius < -GROUP_OVERLAP) {
+				c.y = c.radius;
+			}
 		}
 	}
 
