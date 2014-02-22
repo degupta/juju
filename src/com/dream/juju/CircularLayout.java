@@ -49,7 +49,7 @@ public class CircularLayout extends FrameLayout {
 		centerX = width / 2.0f;
 		centerY = height / 2.0f;
 
-		this.radius = Math.min(centerX, centerY) * 0.8f;
+		this.radius = Math.min(centerX, centerY) - Math.max(getChildAt(0).getWidth(), getChildAt(0).getHeight());
 		numChildren = getChildCount();
 		centerView = null;
 		if (getChildAt(numChildren - 1).getId() == R.id.center) {
@@ -87,10 +87,8 @@ public class CircularLayout extends FrameLayout {
 				.getLayoutParams();
 		params.setMargins((int) (x - child.getWidth() / 2),
 				(int) (y - child.getHeight() / 2), params.rightMargin,
-				params.leftMargin);
+				params.bottomMargin);
 		child.setLayoutParams(params);
-		// Log.d("DEGUPTA", index + ":" + (currentDegree * 360.0f / PI_2) + ","
-		// + params.leftMargin + "," + params.topMargin);
 	}
 
 	public void hideAllChildren() {
