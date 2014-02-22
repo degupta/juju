@@ -103,14 +103,20 @@ public class CircularLayout extends FrameLayout {
 	}
 
 	public void initialAnimation() {
-		int centerAnimTime = 1000;
-		int childAnimTime = 2000;
+		final int centerAnimTime = 1000;
+		final int childAnimTime = 2000;
 		View view = currentNode.view;
 		centerAndReset(view, true);
 		view.animate().alpha(1.0f).scaleX(CENTER_SCALE).scaleY(CENTER_SCALE)
 				.setDuration(centerAnimTime)
-				.setInterpolator(new DecelerateInterpolator(1.0f)).start();
-		circularAnimation(currentNode.children, childAnimTime, centerAnimTime);
+				.setInterpolator(new DecelerateInterpolator(1.0f))
+				.withEndAction(new Runnable() {
+
+					@Override
+					public void run() {
+						circularAnimation(currentNode.children, childAnimTime);
+					}
+				}).start();
 	}
 
 	public void animateToParent(CircularLayoutNode node) {
@@ -167,7 +173,7 @@ public class CircularLayout extends FrameLayout {
 		currentNode = node.parent;
 	}
 
-	public void bringToCenter(CircularLayoutNode node) {
+	public void bringToCenter(final CircularLayoutNode node) {
 		ArrayList<CircularLayoutNode> children = node.parent.children;
 		int size = children.size();
 		for (int i = 0; i < size; i++) {
@@ -176,20 +182,26 @@ public class CircularLayout extends FrameLayout {
 			}
 		}
 		centerAndReset(node.parent.view, false);
-		int centerAnimTime = 1000;
-		int childAnimTime = 2000;
+		final int centerAnimTime = 1000;
+		final int childAnimTime = 2000;
 		View view = node.view;
 		float x = centerX - view.getWidth() / 2;
 		float y = centerY - view.getHeight() / 2;
 		view.animate().scaleX(CENTER_SCALE).scaleY(CENTER_SCALE).x(x).y(y)
 				.setDuration(centerAnimTime)
-				.setInterpolator(new DecelerateInterpolator(1.0f)).start();
-		circularAnimation(node.children, childAnimTime, centerAnimTime);
+				.setInterpolator(new DecelerateInterpolator(1.0f))
+				.withEndAction(new Runnable() {
+
+					@Override
+					public void run() {
+						circularAnimation(node.children, childAnimTime);
+					}
+				}).start();
 		currentNode = node;
 	}
 
 	public void circularAnimation(ArrayList<CircularLayoutNode> nodes,
-			int animTime, int delay) {
+			int animTime) {
 		int size = nodes.size();
 		for (int i = 0; i < size; i++) {
 			View child = nodes.get(i).view;
@@ -200,8 +212,7 @@ public class CircularLayout extends FrameLayout {
 			float y = (float) (-radius * Math.sin(currentDegree)) + centerY
 					- child.getHeight() / 2;
 			child.animate().alpha(1.0f).x(x).y(y).setDuration(animTime)
-					.setStartDelay(delay).scaleX(CHILD_SCALE)
-					.scaleY(CHILD_SCALE)
+					.scaleX(CHILD_SCALE).scaleY(CHILD_SCALE)
 					.setInterpolator(new DecelerateInterpolator(1.0f)).start();
 		}
 	}
