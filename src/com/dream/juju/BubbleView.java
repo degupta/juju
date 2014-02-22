@@ -15,7 +15,7 @@ public class BubbleView extends View {
 
 	private static class CircleGroup {
 		Circle[] circles;
-		float y;
+		float x, y;
 	}
 
 	public static final int TIME_STEP = 50;
@@ -77,13 +77,14 @@ public class BubbleView extends View {
 	}
 
 	public void resetGroup(CircleGroup g, float y) {
+		float halfWidth = getWidth() / 2.0f;
+		g.x = halfWidth;
 		g.y = y;
 		int red = (int) (Math.random() * 255);
 		int green = (int) (Math.random() * 255);
 		int blue = (int) (Math.random() * 255);
 		int color = 0x00000000 | (red << 16) | (green << 8) | blue;
 
-		float halfWidth = getWidth() / 2.0f;
 		Circle[] circles = g.circles;
 		int len = circles.length;
 		for (int i = 0; i < len; i++) {
@@ -95,7 +96,7 @@ public class BubbleView extends View {
 			int alpha = (int) ((Math.random() * ALPHA_DIFF + MIN_ALPHA) * 255.0f);
 			c.color = color | ((alpha << 24) & 0xFF000000);
 			c.radius = (float) (Math.random() * RADIUS_DIFF + MIN_RADIUS);
-			c.x = (float) ((2 * Math.random() - 1) * halfWidth * 0.1f + halfWidth);
+			c.x = (float) ((2 * Math.random() - 1) * halfWidth * 0.1f);
 			c.y = (float) (Math.random() * GROUP_HEIGHT);
 			if (c.y + c.radius > GROUP_HEIGHT + GROUP_OVERLAP) {
 				c.y = GROUP_HEIGHT - c.radius;
@@ -136,19 +137,22 @@ public class BubbleView extends View {
 		}
 		Circle c;
 		CircleGroup g;
-		int height = getHeight();
+		float height = getHeight();
+		float width = getWidth();
 		for (int i = 0; i < NUM_CIRCLE_GROUPS; i++) {
 			g = CIRCLE_GROUPS[i];
 			Circle[] circles = g.circles;
 			int len = circles.length;
 			for (int j = 0; j < len; j++) {
 				c = circles[j];
+				float x = g.x + c.x;
 				float y = g.y + c.y;
-				if (y - c.radius >= height || y + c.radius <= 0) {
+				if (y - c.radius >= height || y + c.radius <= 0
+						|| x - c.radius >= width || x + c.radius <= 0) {
 					continue;
 				}
 				PAINT.setColor(c.color);
-				canvas.drawCircle(c.x, y, c.radius, PAINT);
+				canvas.drawCircle(x, y, c.radius, PAINT);
 			}
 		}
 	}
