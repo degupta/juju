@@ -49,6 +49,7 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 						if (!done) {
 							bubbleView.init();
 							bubbleView.startAnimation();
+							done = true;
 						}
 					}
 				});
