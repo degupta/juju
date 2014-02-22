@@ -3,6 +3,10 @@
  */
 package com.dream.juju;
 
+import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
@@ -31,6 +35,8 @@ public class JujuApplication extends Application {
 
 	public User user;
 
+	public ImageLoader imageLoader;
+
 	public JujuApplication() {
 		INSTANCE = this;
 		user = new User();
@@ -49,6 +55,14 @@ public class JujuApplication extends Application {
 		// Enable public read access.
 		defaultACL.setPublicReadAccess(true);
 		ParseACL.setDefaultACL(defaultACL, true);
+
+		imageLoader = ImageLoader.getInstance();
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
+				this).threadPriority(Thread.NORM_PRIORITY - 2)
+				.denyCacheImageMultipleSizesInMemory()
+				.discCacheFileNameGenerator(new Md5FileNameGenerator())
+				.tasksProcessingOrder(QueueProcessingType.LIFO).build();
+		imageLoader.init(config);
 
 		Log.d(LOG_TAG, "Init done");
 	}
