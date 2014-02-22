@@ -1,12 +1,13 @@
 package com.dream.juju;
 
+import com.dream.juju.CircularLayout.CircularLayoutListener;
 import com.dream.juju.CircularLayout.CircularLayoutNode;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements CircularLayoutListener {
 
 	CircularLayout circularLayout;
 	CircularLayoutNode mainNode;
@@ -47,10 +48,15 @@ public class MainActivity extends Activity {
 			}
 		}, 1500);
 	}
-	
+
 	public void onBackPressed() {
 		if (!circularLayout.onBackPressed()) {
 			super.onBackPressed();
 		}
+	}
+
+	@Override
+	public void onLeafClicked(CircularLayoutNode node) {
+		
 	}
 }
