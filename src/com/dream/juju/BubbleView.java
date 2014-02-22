@@ -20,7 +20,8 @@ public class BubbleView extends View {
 
 	public static final int TIME_STEP = 50;
 	public static final int NUM_CIRCLE_GROUPS = 4;
-	public static final int NUM_CIRCLES_PER_GROUP = 20;
+	public static final int NUM_CIRCLES_PER_GROUP = 30;
+	public static final int NUM_SUB_GROUPS = 5;
 	public static final float MIN_RADIUS = 50f;
 	public static final float MAX_RADIUS = 150f;
 	public static final float SPEED = -0.1f;
@@ -133,7 +134,7 @@ public class BubbleView extends View {
 			for (int j = 0; j < len; j++) {
 				c = circles[j];
 				float y = g.y + c.y;
-				if (y - c.radius >= height) {
+				if (y - c.radius >= height || y + c.radius <= 0) {
 					continue;
 				}
 				PAINT.setColor(c.color);
