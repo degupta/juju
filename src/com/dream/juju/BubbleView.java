@@ -96,13 +96,13 @@ public class BubbleView extends View {
 			int alpha = (int) ((Math.random() * ALPHA_DIFF + MIN_ALPHA) * 255.0f);
 			c.color = color | ((alpha << 24) & 0xFF000000);
 			c.radius = (float) (Math.random() * RADIUS_DIFF + MIN_RADIUS);
-			c.x = (float) ((2 * Math.random() - 1) * halfWidth * 0.1f);
-			c.y = (float) (Math.random() * GROUP_HEIGHT);
+			c.x = (float) ((2 * Math.random() - 1) * halfWidth * 0.4f);
+			c.y = GROUP_HEIGHT / len * i;
 			if (c.y + c.radius > GROUP_HEIGHT + GROUP_OVERLAP) {
-				c.y = GROUP_HEIGHT - c.radius;
+				c.y = GROUP_HEIGHT + GROUP_OVERLAP - c.radius;
 			}
 			if (c.y - c.radius < -GROUP_OVERLAP) {
-				c.y = c.radius;
+				c.y = c.radius - GROUP_OVERLAP;
 			}
 		}
 	}
@@ -147,12 +147,13 @@ public class BubbleView extends View {
 				c = circles[j];
 				float x = g.x + c.x;
 				float y = g.y + c.y;
-				if (y - c.radius >= height || y + c.radius <= 0
-						|| x - c.radius >= width || x + c.radius <= 0) {
+				float radius = c.radius;
+				if (y - radius >= height || y + radius <= 0
+						|| x - radius >= width || x + radius <= 0) {
 					continue;
 				}
 				PAINT.setColor(c.color);
-				canvas.drawCircle(x, y, c.radius, PAINT);
+				canvas.drawCircle(x, y, radius, PAINT);
 			}
 		}
 	}
