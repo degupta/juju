@@ -49,7 +49,8 @@ public class CircularLayout extends FrameLayout {
 		centerX = width / 2.0f;
 		centerY = height / 2.0f;
 
-		this.radius = Math.min(centerX, centerY) - Math.max(getChildAt(0).getWidth(), getChildAt(0).getHeight());
+		this.radius = Math.min(centerX, centerY)
+				- Math.max(getChildAt(0).getWidth(), getChildAt(0).getHeight());
 		numChildren = getChildCount();
 		centerView = null;
 		if (getChildAt(numChildren - 1).getId() == R.id.center) {
@@ -116,9 +117,9 @@ public class CircularLayout extends FrameLayout {
 
 	public void animateCircular() {
 		hideAllChildren();
+		setVisibility(View.VISIBLE);
 		int centerAnimTime = 1000;
 		int childAnimTime = 1000;
-		int childStaggerTime = 500;
 		int delay = hasCenter ? centerAnimTime : 0;
 
 		final ValueAnimator childAnims[] = new ValueAnimator[numChildren];
@@ -131,7 +132,6 @@ public class CircularLayout extends FrameLayout {
 			anim.addUpdateListener(new IndexAnimationListener(i));
 			anim.setStartDelay(delay);
 			anim.start();
-			delay += childStaggerTime;
 		}
 
 		if (hasCenter) {

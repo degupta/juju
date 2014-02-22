@@ -4,10 +4,16 @@
     android:layout_height="match_parent"
     android:background="@android:color/white" >
 
+    <com.dream.juju.BubbleView
+        android:id="@+id/bubble_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <com.dream.juju.CircularLayout
         android:id="@+id/circular_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        android:visibility="gone" >
 
         <ImageView
             android:layout_width="wrap_content"
