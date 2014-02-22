@@ -172,6 +172,7 @@ public class CircularLayout extends FrameLayout {
 										}
 									}
 								};
+								int num = 0;
 								for (int i = 0; i < siblingsSize; i++) {
 									View child = siblings.get(i).view;
 									child.setVisibility(View.VISIBLE);
@@ -192,7 +193,9 @@ public class CircularLayout extends FrameLayout {
 																1.0f))
 												.setDuration(otherAnimTime)
 												.withEndAction(endAnimation)
+												.setStartDelay(num * 200)
 												.start();
+										num++;
 									}
 								}
 
@@ -270,6 +273,7 @@ public class CircularLayout extends FrameLayout {
 			child.animate().alpha(1.0f).x(x).y(y).setDuration(animTime)
 					.scaleX(CHILD_SCALE).scaleY(CHILD_SCALE)
 					.setInterpolator(new DecelerateInterpolator(1.0f))
+					.setStartDelay(i * 200)
 					.withEndAction(new Runnable() {
 
 						@Override
