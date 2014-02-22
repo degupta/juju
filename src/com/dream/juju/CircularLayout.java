@@ -226,10 +226,8 @@ public class CircularLayout extends FrameLayout {
 			View child = nodes.get(i).view;
 			centerAndReset(child, true);
 			float currentDegree = PI_2 / size * i;
-			float x = (float) (radius * Math.cos(currentDegree)) + centerX
-					- child.getWidth() / 2;
-			float y = (float) (-radius * Math.sin(currentDegree)) + centerY
-					- child.getHeight() / 2;
+			float x = getX(currentDegree, child);
+			float y = getY(currentDegree, child);
 			child.animate().alpha(1.0f).x(x).y(y).setDuration(animTime)
 					.scaleX(CHILD_SCALE).scaleY(CHILD_SCALE)
 					.setInterpolator(new DecelerateInterpolator(1.0f)).start();
