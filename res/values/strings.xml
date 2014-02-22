@@ -1,5 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
     <string name="app_name">Juju</string>
+    <string name="title_activity_facebook_login">FacebookLoginActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+
+    <!-- FB app id -->
+    <string name="app_id">723364517684172</string>
+    <string name="facebook_login">Login with FB</string>
+    <string name="title_activity_user_profile">User Profile</string>
 
 </resources>
