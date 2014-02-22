@@ -13,6 +13,10 @@ public class CircularLayout extends FrameLayout {
 	public static final float PI_2 = (float) (Math.PI * 2.0f);
 	public static final float CHILD_SCALE = 0.5f;
 	public static final float CENTER_SCALE = 1.0f;
+	
+	public static interface CircularLayoutListener {
+		public void onLeafClicked(CircularLayoutNode node);
+	}
 
 	public static class CircularLayoutNode {
 		public ArrayList<CircularLayoutNode> children = new ArrayList<CircularLayoutNode>();
@@ -41,6 +45,8 @@ public class CircularLayout extends FrameLayout {
 				animateToParent(node);
 			} else if (node.children.size() > 0) {
 				bringToCenter(node);
+			} else if (listener != null) {
+				listener.onLeafClicked(node);
 			}
 		}
 	}
@@ -51,6 +57,7 @@ public class CircularLayout extends FrameLayout {
 
 	int width, height;
 	float centerX, centerY;
+	CircularLayoutListener listener;
 
 	public CircularLayout(Context context) {
 		super(context);
