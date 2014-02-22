@@ -120,56 +120,75 @@ public class CircularLayout extends FrameLayout {
 	}
 
 	public void animateToParent(CircularLayoutNode node) {
-		ArrayList<CircularLayoutNode> children = node.children;
-		int size = children.size();
+		final View view = node.view;
+		final int centerAnimTime = 1500;
+		final int otherAnimTime = 1000;
+		final CircularLayoutNode parent = node.parent;
+		final View parentView = parent.view;
+		final ArrayList<CircularLayoutNode> siblings = parent.children;
+		final int siblingsSize = siblings.size();
+		final ArrayList<CircularLayoutNode> children = node.children;
+		final int size = children.size();
+
 		for (int i = 0; i < size; i++) {
 			centerAndReset(children.get(i).view, false);
 		}
 
-		View view = node.view;
-		int centerAnimTime = 1500;
-		int otherAnimTime = 1000;
-		int otherAnimTimeDelay = 1500;
-		CircularLayoutNode parent = node.parent;
-		View parentView = parent.view;
-		ArrayList<CircularLayoutNode> siblings = parent.children;
-		size = siblings.size();
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < siblingsSize; i++) {
 			View child = siblings.get(i).view;
-			child.setVisibility(View.VISIBLE);
-			float currentDegree = PI_2 / size * i;
-			float x = (float) (radius * Math.cos(currentDegree)) + centerX
-					- child.getWidth() / 2;
-			float y = (float) (-radius * Math.sin(currentDegree)) + centerY
-					- child.getHeight() / 2;
 			if (child == view) {
+				float currentDegree = PI_2 / siblingsSize * i;
+				float x = getX(currentDegree, child);
+				float y = getY(currentDegree, child);
 				child.animate().scaleX(CHILD_SCALE).x(x).y(y)
 						.scaleY(CHILD_SCALE).setDuration(centerAnimTime)
 						.setInterpolator(new DecelerateInterpolator(1.0f))
-						.start();
-			} else {
-				child.setX(x);
-				child.setY(y);
-				child.setAlpha(0.0f);
-				child.setScaleX(CHILD_SCALE);
-				child.setScaleY(CHILD_SCALE);
-				child.animate().alpha(1.0f)
-						.setInterpolator(new DecelerateInterpolator(1.0f))
-						.setStartDelay(otherAnimTimeDelay)
-						.setDuration(otherAnimTime).start();
+						.withEndAction(new Runnable() {
+
+							@Override
+							public void run() {
+								for (int i = 0; i < siblingsSize; i++) {
+									View child = siblings.get(i).view;
+									child.setVisibility(View.VISIBLE);
+									float currentDegree = PI_2 / siblingsSize
+											* i;
+									float x = getX(currentDegree, child);
+									float y = getY(currentDegree, child);
+									if (child != view) {
+										child.setX(x);
+										child.setY(y);
+										child.setAlpha(0.0f);
+										child.setScaleX(CHILD_SCALE);
+										child.setScaleY(CHILD_SCALE);
+										child.animate()
+												.alpha(1.0f)
+												.setInterpolator(
+														new DecelerateInterpolator(
+																1.0f))
+												.setDuration(otherAnimTime)
+												.start();
+									}
+								}
+
+								parentView.setVisibility(View.VISIBLE);
+								parentView.setX(centerX - parentView.getWidth()
+										/ 2);
+								parentView.setY(centerY
+										- parentView.getHeight() / 2);
+								parentView.setAlpha(0.0f);
+								parentView.setScaleX(CENTER_SCALE);
+								parentView.setScaleY(CENTER_SCALE);
+								parentView
+										.animate()
+										.alpha(1.0f)
+										.setInterpolator(
+												new DecelerateInterpolator(1.0f))
+										.setDuration(otherAnimTime).start();
+							}
+						}).start();
+				break;
 			}
 		}
-
-		parentView.setVisibility(View.VISIBLE);
-		parentView.setX(centerX - parentView.getWidth() / 2);
-		parentView.setY(centerY - parentView.getHeight() / 2);
-		parentView.setAlpha(0.0f);
-		parentView.setScaleX(CENTER_SCALE);
-		parentView.setScaleY(CENTER_SCALE);
-		parentView.animate().alpha(1.0f)
-				.setInterpolator(new DecelerateInterpolator(1.0f))
-				.setStartDelay(otherAnimTimeDelay).setDuration(otherAnimTime)
-				.start();
 		currentNode = node.parent;
 	}
 
@@ -226,5 +245,15 @@ public class CircularLayout extends FrameLayout {
 		} else {
 			return false;
 		}
+	}
+
+	public float getX(float currentDegree, View view) {
+		return (float) (radius * Math.cos(currentDegree)) + centerX
+				- view.getWidth() / 2;
+	}
+
+	public float getY(float currentDegree, View view) {
+		return (float) (-radius * Math.sin(currentDegree)) + centerY
+				- view.getHeight() / 2;
 	}
 }
