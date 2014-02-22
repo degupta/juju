@@ -54,9 +54,11 @@ public class FacebookLoginActivity extends Activity {
 							} else if (user.isNew()) {
 								Log.d(LOG_TAG,
 										"User signed up and logged in through Facebook!");
+								JujuApplication.INSTANCE.user.parseUser = user;
 							} else {
 								Log.d(LOG_TAG,
 										"User logged in through Facebook!");
+								JujuApplication.INSTANCE.user.parseUser = user;
 							}
 						}
 					});
