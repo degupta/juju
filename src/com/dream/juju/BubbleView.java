@@ -8,7 +8,7 @@ import android.view.View;
 
 public class BubbleView extends View {
 	private static class Circle {
-		float x, y;
+		float x, aX, y;
 		float radius;
 		int color;
 	}
@@ -26,7 +26,7 @@ public class BubbleView extends View {
 	public static final float MAX_RADIUS = 150f;
 	public static final float MIN_ALPHA = 0.1f;
 	public static final float MAX_ALPHA = 0.75f;
-	public static final float SPEED = -0.1f;
+	public static final float SPEED = -0.15f;
 	public static final float GROUP_HEIGHT = 1000.0f;
 	public static final float GROUP_OVERLAP = 100.0f;
 
@@ -96,7 +96,8 @@ public class BubbleView extends View {
 			int alpha = (int) ((Math.random() * ALPHA_DIFF + MIN_ALPHA) * 255.0f);
 			c.color = color | ((alpha << 24) & 0xFF000000);
 			c.radius = (float) (Math.random() * RADIUS_DIFF + MIN_RADIUS);
-			c.x = (float) ((2 * Math.random() - 1) * halfWidth * 0.4f);
+			c.x = (float) ((2 * Math.random() - 1) * halfWidth * 0.3f);
+			c.aX = 0.0f;
 			c.y = GROUP_HEIGHT / len * i;
 			if (c.y + c.radius > GROUP_HEIGHT + GROUP_OVERLAP) {
 				c.y = GROUP_HEIGHT + GROUP_OVERLAP - c.radius;
@@ -113,11 +114,18 @@ public class BubbleView extends View {
 			resetGroup(g, bottomMostGroup.y + GROUP_HEIGHT);
 			bottomMostGroup = g;
 		} else {
-			int width = getWidth();
+			float width = getWidth();
+			float amplitude = -width / 6.0f;
+			float height = getHeight();
 			Circle[] circles = g.circles;
 			int len = circles.length;
+			float x, y, ordinate;
 			for (int i = 0; i < len; i++) {
-				circles[i].x += (2 * Math.random() - 1) * width * 0.001f;
+				y = -(circles[i].y + g.y) + height;
+				ordinate = y / height * (CircularLayout.PI_2) - CircularLayout.PI_2 / 2.0f;
+				x = (float) Math.sin(ordinate) * amplitude;
+				x += (2 * Math.random() - 1) * width * 0.001f;
+				circles[i].aX = x;
 			}
 		}
 	}
@@ -145,7 +153,7 @@ public class BubbleView extends View {
 			int len = circles.length;
 			for (int j = 0; j < len; j++) {
 				c = circles[j];
-				float x = g.x + c.x;
+				float x = g.x + c.x + c.aX;
 				float y = g.y + c.y;
 				float radius = c.radius;
 				if (y - radius >= height || y + radius <= 0
