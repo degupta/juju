@@ -1,10 +1,7 @@
 package com.dream.juju;
 
-import android.animation.ValueAnimator;
-import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.FrameLayout;
@@ -13,7 +10,6 @@ public class CircularLayout extends FrameLayout {
 	public static final float PI_2 = (float) (Math.PI * 2.0f);
 
 	float radius = 0.0f;
-	float[] currentRadius;
 	boolean hasCenter;
 	View centerView;
 	int numChildren = 0;
@@ -33,16 +29,6 @@ public class CircularLayout extends FrameLayout {
 		super(context, attrs, defStyleAttr);
 	}
 
-	public void setChildRadius(int child, float radius) {
-		currentRadius[child] = radius;
-		updatePositionOfChild(child);
-	}
-
-	public void resetChildRadius(int child) {
-		currentRadius[child] = radius;
-		updatePositionOfChild(child);
-	}
-
 	public void init() {
 		width = getWidth() - getPaddingLeft() - getPaddingRight();
 		height = getHeight() - getPaddingTop() - getPaddingBottom();
@@ -60,36 +46,10 @@ public class CircularLayout extends FrameLayout {
 		if (hasCenter) {
 			numChildren -= 1;
 		}
-		currentRadius = new float[numChildren];
-		for (int i = 0; i < numChildren; i++) {
-			currentRadius[i] = radius;
-		}
-		// Log.d("DEGUPTA", numChildren + "");
 	}
 
 	public void setRadius(float radius) {
 		this.radius = radius;
-	}
-
-	public void updatePositionOfAll() {
-		for (int i = 0; i < numChildren; i++) {
-			updatePositionOfChild(i);
-		}
-	}
-
-	protected void updatePositionOfChild(int index) {
-		View child = getChildAt(index);
-		float currentDegree = PI_2 / numChildren * index;
-		float x = (float) (currentRadius[index] * Math.cos(currentDegree))
-				+ centerX;
-		float y = (float) (-currentRadius[index] * Math.sin(currentDegree))
-				+ centerY;
-		FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) child
-				.getLayoutParams();
-		params.setMargins((int) (x - child.getWidth() / 2),
-				(int) (y - child.getHeight() / 2), params.rightMargin,
-				params.bottomMargin);
-		child.setLayoutParams(params);
 	}
 
 	public void hideAllChildren() {
@@ -99,55 +59,39 @@ public class CircularLayout extends FrameLayout {
 		}
 	}
 
-	public class IndexAnimationListener implements AnimatorUpdateListener {
-		int index;
-
-		public IndexAnimationListener(int index) {
-			this.index = index;
-		}
-
-		public void onAnimationUpdate(ValueAnimator animation) {
-			float value = (Float) animation.getAnimatedValue();
-			getChildAt(index).setVisibility(View.VISIBLE);
-			currentRadius[index] = radius * value;
-			getChildAt(index).setAlpha(value);
-			updatePositionOfChild(index);
-		}
-	}
-
 	public void animateCircular() {
-		hideAllChildren();
 		setVisibility(View.VISIBLE);
+		hideAllChildren();
 		int centerAnimTime = 1000;
-		int childAnimTime = 1000;
+		int childAnimTime = 2000;
 		int delay = hasCenter ? centerAnimTime : 0;
 
-		final ValueAnimator childAnims[] = new ValueAnimator[numChildren];
-
 		for (int i = 0; i < numChildren; i++) {
-			childAnims[i] = ValueAnimator.ofFloat(0.0f, 1.0f);
-			ValueAnimator anim = childAnims[i];
-			anim.setInterpolator(new DecelerateInterpolator(1.0f));
-			anim.setDuration(childAnimTime);
-			anim.addUpdateListener(new IndexAnimationListener(i));
-			anim.setStartDelay(delay);
-			anim.start();
+			View child = getChildAt(i);
+			child.setVisibility(View.VISIBLE);
+			child.setX(centerX - child.getWidth() / 2);
+			child.setY(centerY - child.getHeight() / 2);
+			child.setAlpha(0.0f);
+			child.setScaleX(0.0f);
+			child.setScaleY(0.0f);
+			float currentDegree = PI_2 / numChildren * i;
+			float x = (float) (radius * Math.cos(currentDegree)) + centerX
+					- child.getWidth() / 2;
+			float y = (float) (radius * Math.sin(currentDegree)) + centerY
+					- child.getHeight() / 2;
+			child.animate().alpha(1.0f).x(x).y(y).setDuration(childAnimTime)
+					.setStartDelay(delay).scaleX(1.0f).scaleY(1.0f)
+					.setInterpolator(new DecelerateInterpolator(1.0f)).start();
 		}
 
 		if (hasCenter) {
-			ValueAnimator centerAnim = ValueAnimator.ofFloat(0.0f, 1.0f);
-			centerAnim.setInterpolator(new DecelerateInterpolator(1.0f));
-			centerAnim.setDuration(centerAnimTime);
-			centerAnim.addUpdateListener(new AnimatorUpdateListener() {
-
-				@Override
-				public void onAnimationUpdate(ValueAnimator animation) {
-					centerView.setVisibility(View.VISIBLE);
-					float value = (Float) animation.getAnimatedValue();
-					centerView.setAlpha(value);
-				}
-			});
-			centerAnim.start();
+			centerView.setVisibility(View.VISIBLE);
+			centerView.setAlpha(0.0f);
+			centerView.setScaleX(0.0f);
+			centerView.setScaleY(0.0f);
+			centerView.animate().alpha(1.0f).scaleX(1.0f).scaleY(1.0f)
+					.setDuration(centerAnimTime)
+					.setInterpolator(new DecelerateInterpolator(1.0f)).start();
 		}
 	}
 }
