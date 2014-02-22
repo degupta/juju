@@ -47,4 +47,10 @@ public class MainActivity extends Activity {
 			}
 		}, 1500);
 	}
+	
+	public void onBackPressed() {
+		if (!circularLayout.onBackPressed()) {
+			super.onBackPressed();
+		}
+	}
 }

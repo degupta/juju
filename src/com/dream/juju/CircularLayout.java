@@ -123,7 +123,7 @@ public class CircularLayout extends FrameLayout {
 		View view = node.view;
 		int centerAnimTime = 1500;
 		int otherAnimTime = 1000;
-		int otherAnimTimeDelay = 500;
+		int otherAnimTimeDelay = 1500;
 		CircularLayoutNode parent = node.parent;
 		View parentView = parent.view;
 		ArrayList<CircularLayoutNode> siblings = parent.children;
@@ -203,6 +203,17 @@ public class CircularLayout extends FrameLayout {
 					.setStartDelay(delay).scaleX(CHILD_SCALE)
 					.scaleY(CHILD_SCALE)
 					.setInterpolator(new DecelerateInterpolator(1.0f)).start();
+		}
+	}
+
+	public boolean onBackPressed() {
+		if (currentNode == null) {
+			return false;
+		} else if (currentNode.parent != null) {
+			animateToParent(currentNode);
+			return true;
+		} else {
+			return false;
 		}
 	}
 }
