@@ -10,6 +10,7 @@ import android.support.v13.app.FragmentStatePagerAdapter;
 import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 
 public class UserProfileActivity extends Activity {
@@ -27,6 +28,7 @@ public class UserProfileActivity extends Activity {
 
         @Override
         public Fragment getItem(int position) {
+        	Log.d(LOG_TAG, "Creating profile fragment for position " + position);
             return ProfileSlidePageFragment.create(profiles.profiles[position]);
         }
 

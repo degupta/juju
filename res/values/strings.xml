@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Juju</string>
+    <string name="juju">Juju</string>
     <string name="title_activity_facebook_login">FacebookLoginActivity</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>

@@ -39,6 +39,7 @@ public class ProfileSlidePageFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
+        	Log.d(LOG_TAG, "Creating gallery fragment for position " + position);
             return GallerySlidePageFragment.create(imageList[position]);
         }
 
@@ -111,7 +112,7 @@ public class ProfileSlidePageFragment extends Fragment {
 			slidingPanelLayoutGallery.setPanelSlideListener(new SlidingUpPanelLayout.SimplePanelSlideListener() {
 	            @Override
 	            public void onPanelExpanded(View panel) {
-	                Log.i(LOG_TAG, "gallery panel expanded");
+	                Log.i(LOG_TAG, "Blog panel expanded");
 	                slidingPanelLayoutMain.expandPane();
 	            }
 	
@@ -130,6 +131,7 @@ public class ProfileSlidePageFragment extends Fragment {
 					Log.d(LOG_TAG, "onScroll " + e1 + e2 + distanceX + ", " + distanceY);
 					if(distanceY > 0 && Math.abs(distanceX) < distanceY / 4) {
 						slidingPanelLayoutGallery.expandPane(0.01f);
+		                Log.i(LOG_TAG, "Gallery panel expanded");
 						return true;
 					}
 					return false;
@@ -147,7 +149,8 @@ public class ProfileSlidePageFragment extends Fragment {
 			pagerAdapter = new GallerySlidePagerAdapter(getFragmentManager(), profile.galleryImageList); 
 			galleryView.setAdapter(pagerAdapter);
 			
-	        
+        	Log.d(LOG_TAG, "Profile view has been set up for profile " + profile);
+
         }
         
         return rootView;

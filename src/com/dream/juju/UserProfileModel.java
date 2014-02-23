@@ -29,7 +29,7 @@ public class UserProfileModel implements Serializable {
 		public int[] galleryTextList;	// List of gallery texts (string id, 0 - no text)
 		
 		public int blogImageId;		// Blog image id
-
+		
 	}
 	
 	public ProfileModel[] profiles;
