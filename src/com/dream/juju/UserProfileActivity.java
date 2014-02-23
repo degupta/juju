@@ -33,7 +33,7 @@ public class UserProfileActivity extends Activity {
 	};
 	
 	private static final UserProfileModel.ProfileModel MY_PROFILE = 
-		new UserProfileModel.ProfileModel(R.drawable.profile_1_1, R.drawable.gallery_1_1_01, R.drawable.gallery_1_1_02_trim);
+		new UserProfileModel.ProfileModel(R.drawable.profile_1_1_cr, R.drawable.gallery_1_1crop, R.drawable.gallery_1_1_02_trim);
 	
 	
 	 /**
