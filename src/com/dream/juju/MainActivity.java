@@ -22,7 +22,7 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 		String userImage = JujuApplication.INSTANCE.user.getImageUrl();
 		if (userImage != null) {
 			JujuApplication.INSTANCE.imageLoader.displayImage(userImage,
-					(ImageView) circularLayout.getChildAt(0));
+					(ImageView) circularLayout.getChildAt(0), JujuApplication.circleImageDisplayOptions());
 		}
 		for (int i = 1; i < 7; i++) {
 			mainNode.children.add(new CircularLayoutNode(circularLayout

@@ -11,98 +11,98 @@
         android:visibility="invisible" >
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/circular_layout_node_size"
+            android:layout_height="@dimen/circular_layout_node_size"
             android:src="@drawable/ic_launcher" />
     </com.dream.juju.CircularLayout>
 

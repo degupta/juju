@@ -4,15 +4,24 @@
 package com.dream.juju;
 
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.process.BitmapProcessor;
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
 
 import android.app.Application;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.util.Log;
 
 /**
@@ -67,4 +76,30 @@ public class JujuApplication extends Application {
 		Log.d(LOG_TAG, "Init done");
 	}
 
+	public static Bitmap circleImage(Bitmap bitmap) {
+		Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
+				bitmap.getHeight(), Config.ARGB_8888);
+		Canvas canvas = new Canvas(output);
+		final Paint paint = new Paint();
+		final Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+
+		paint.setAntiAlias(true);
+		canvas.drawARGB(0, 0, 0, 0);
+		canvas.drawCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2,
+				bitmap.getWidth() / 2, paint);
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		canvas.drawBitmap(bitmap, rect, rect, paint);
+		return output;
+	}
+
+	public static DisplayImageOptions circleImageDisplayOptions() {
+		return new DisplayImageOptions.Builder().preProcessor(
+				new BitmapProcessor() {
+
+					@Override
+					public Bitmap process(Bitmap bitmap) {
+						return circleImage(bitmap);
+					}
+				}).build();
+	}
 }
