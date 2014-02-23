@@ -2,24 +2,23 @@ package com.dream.juju;
 
 import java.util.List;
 
-import com.dream.juju.CircularLayout.CircularLayoutListener;
-import com.dream.juju.CircularLayout.CircularLayoutNode;
-import com.facebook.model.GraphUser;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
-public class MainActivity extends Activity implements CircularLayoutListener {
+import com.dream.juju.CircularLayout.CircularLayoutListener;
+import com.dream.juju.CircularLayout.CircularLayoutNode;
+import com.facebook.model.GraphUser;
 
+public class FriendsActivity extends Activity implements CircularLayoutListener {
 	CircularLayout circularLayout;
 	CircularLayoutNode mainNode;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_friends);
 		circularLayout = (CircularLayout) findViewById(R.id.circular_layout);
 
 		mainNode = new CircularLayoutNode(newImageView(), null);
@@ -68,7 +67,7 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 					@Override
 					public void onGlobalLayout() {
 						if (!done) {
-							circularLayout.listener = MainActivity.this;
+							circularLayout.listener = FriendsActivity.this;
 							circularLayout.initWithNode(mainNode, 300.0f);
 							done = true;
 						}
