@@ -13,9 +13,16 @@ public class CircularLayout extends FrameLayout {
 	public static final float PI_2 = (float) (Math.PI * 2.0f);
 	public static final float CHILD_SCALE = 0.5f;
 	public static final float CENTER_SCALE = 1.0f;
-	
+
+	FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
+			(int) getResources()
+					.getDimension(R.dimen.circular_layout_node_size),
+			(int) getResources()
+					.getDimension(R.dimen.circular_layout_node_size));
+
 	public static interface CircularLayoutListener {
 		public void onRootClicked(CircularLayoutNode node);
+
 		public void onLeafClicked(CircularLayoutNode node);
 	}
 
@@ -109,6 +116,10 @@ public class CircularLayout extends FrameLayout {
 
 		initAllChildren(node);
 		initialAnimation();
+	}
+
+	public void addChildView(View view) {
+		addView(view, params);
 	}
 
 	public void initialAnimation() {
@@ -281,8 +292,7 @@ public class CircularLayout extends FrameLayout {
 			child.animate().alpha(1.0f).x(x).y(y).setDuration(animTime)
 					.scaleX(CHILD_SCALE).scaleY(CHILD_SCALE)
 					.setInterpolator(new DecelerateInterpolator(1.0f))
-					.setStartDelay(i * 200)
-					.withEndAction(new Runnable() {
+					.setStartDelay(i * 200).withEndAction(new Runnable() {
 
 						@Override
 						public void run() {
