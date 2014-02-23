@@ -21,15 +21,23 @@ public class UserProfileModel implements Serializable {
 		 */
 		
 		public int profilePictureId;	// Profile picture drawable id
+		
+		public int galleryPictureId;	// Profile picture drawable id
 
-		public int dreamTitleId;	// Dream title image id
-		public int dreamStoryId;	// Dream story string id
+		//public int dreamTitleId;	// Dream title image id
+		//public int dreamStoryId;	// Dream story string id
 		
-		public int[] galleryImageList;	// List of gallery images (drawable id, 0 - no image)
-		public int[] galleryTextList;	// List of gallery texts (string id, 0 - no text)
+		//public int[] galleryImageList;	// List of gallery images (drawable id, 0 - no image)
+		//public int[] galleryTextList;	// List of gallery texts (string id, 0 - no text)
 		
-		public int blogImageId;		// Blog image id
+		public int blogPictureId;		// Blog picture drawable id
 		
+		
+		public ProfileModel(int p, int g, int b) {
+			profilePictureId = p;
+			galleryPictureId = g;
+			blogPictureId = b;
+		}
 	}
 	
 	public ProfileModel[] profiles;
