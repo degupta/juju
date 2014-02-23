@@ -19,11 +19,46 @@
         android:layout_height="match_parent"
         android:src="@drawable/angel_circles" />
 
-    <Button
-        android:id="@+id/buttonFacebookLogin"
-        android:layout_width="match_parent"
+    <FrameLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/facebook_login" />
+        android:layout_gravity="right"
+        android:layout_marginTop="100dp" >
+
+        <ImageView
+            android:id="@+id/twitter_login"
+            android:layout_width="@dimen/login_button_size"
+            android:layout_height="@dimen/login_button_size"
+            android:layout_gravity="top|right"
+            android:layout_marginTop="@dimen/login_button_top"
+            android:src="@drawable/signin_twitter" />
+
+        <ImageView
+            android:id="@+id/facebook_login"
+            android:layout_width="@dimen/login_button_size"
+            android:layout_height="@dimen/login_button_size"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="@dimen/login_button_right"
+            android:src="@drawable/signin_fb" />
+
+        <ImageView
+            android:id="@+id/google_login"
+            android:layout_width="@dimen/login_button_size"
+            android:layout_height="@dimen/login_button_size"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="@dimen/login_button_far_right"
+            android:layout_marginTop="@dimen/login_button_top"
+            android:src="@drawable/signin_gplus" />
+
+        <ImageView
+            android:id="@+id/email_login"
+            android:layout_width="@dimen/login_button_size"
+            android:layout_height="@dimen/login_button_size"
+            android:layout_gravity="top|right"
+            android:layout_marginRight="@dimen/login_button_right"
+            android:layout_marginTop="@dimen/login_button_far_top"
+            android:src="@drawable/signin_email" />
+    </FrameLayout>
 
     <ImageView
         android:layout_width="wrap_content"

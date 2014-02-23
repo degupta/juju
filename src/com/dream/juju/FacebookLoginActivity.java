@@ -17,10 +17,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import com.facebook.Request;
 import com.facebook.Response;
-import com.facebook.Session;
 import com.facebook.model.GraphUser;
 
 public class FacebookLoginActivity extends Activity {
@@ -31,14 +29,14 @@ public class FacebookLoginActivity extends Activity {
 			.asList(new String[] { Permissions.User.ABOUT_ME,
 					Permissions.User.EMAIL, Permissions.User.PHOTOS });
 
-	private Button loginButton;
+	private View loginButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_facebook_login);
 
-		loginButton = (Button) findViewById(R.id.buttonFacebookLogin);
+		loginButton = findViewById(R.id.facebook_login);
 		loginButton.setOnClickListener(loginButtonOnClick);
 
 		checkIfHasUser();
@@ -62,13 +60,6 @@ public class FacebookLoginActivity extends Activity {
 			}
 			startMainActivity();
 		}
-	}
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.facebook_login, menu);
-		return true;
 	}
 
 	@Override
