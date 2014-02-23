@@ -21,7 +21,20 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		circularLayout = (CircularLayout) findViewById(R.id.circular_layout);
-		mainNode = new CircularLayoutNode(circularLayout.getChildAt(0), null);
+
+		mainNode = new CircularLayoutNode(newImageView(), null);
+		for (int i = 0; i < 6; i++) {
+			CircularLayoutNode child = new CircularLayoutNode(newImageView(),
+					mainNode);
+			mainNode.children.add(child);
+
+			for (int j = 0; j < 6; j++) {
+				child.children
+						.add(new CircularLayoutNode(newImageView(), child));
+				child.children
+						.add(new CircularLayoutNode(newImageView(), child));
+			}
+		}
 
 		User user = JujuApplication.INSTANCE.user;
 		String userImage = user.getImageUrl();
@@ -44,19 +57,6 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 				}
 			}
 		});
-
-		for (int i = 1; i < 7; i++) {
-			mainNode.children.add(new CircularLayoutNode(circularLayout
-					.getChildAt(i), mainNode));
-		}
-
-		for (int i = 7; i < 19; i += 2) {
-			CircularLayoutNode parent = mainNode.children.get((i - 7) / 2);
-			parent.children.add(new CircularLayoutNode(circularLayout
-					.getChildAt(i), parent));
-			parent.children.add(new CircularLayoutNode(circularLayout
-					.getChildAt(i + 1), parent));
-		}
 
 		circularLayout.getViewTreeObserver().addOnGlobalLayoutListener(
 				new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -87,5 +87,12 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 	@Override
 	public void onRootClicked(CircularLayoutNode node) {
 		startActivity(new Intent(this, BubbleActivity.class));
+	}
+
+	public ImageView newImageView() {
+		ImageView imageView = new ImageView(this);
+		imageView.setImageResource(R.drawable.ic_launcher);
+		circularLayout.addChildView(imageView);
+		return imageView;
 	}
 }
