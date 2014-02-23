@@ -27,13 +27,13 @@ public class UserProfileActivity extends Activity {
 	 * Images config is here
 	 */
 	private static final UserProfileModel.ProfileModel[] FRIEND_PROFILES = new UserProfileModel.ProfileModel[] {
-		new UserProfileModel.ProfileModel(R.drawable.profile_1_1_cr, R.drawable.gallery_1_2, R.drawable.profile_1_1),
-		new UserProfileModel.ProfileModel(R.drawable.board_2_1, R.drawable.gallery_2_1, R.drawable.profile_1_1),
-		new UserProfileModel.ProfileModel(R.drawable.board_3_1, R.drawable.gallery_3_1, R.drawable.profile_1_1)
+		new UserProfileModel.ProfileModel(R.drawable.profile_1_1_cr, R.drawable.gallery_1_2, R.drawable.blog),
+		new UserProfileModel.ProfileModel(R.drawable.board_2_1, R.drawable.gallery_2_1, R.drawable.blog),
+		new UserProfileModel.ProfileModel(R.drawable.board_3_1, R.drawable.gallery_3_1, R.drawable.blog)
 	};
 	
 	private static final UserProfileModel.ProfileModel MY_PROFILE = 
-		new UserProfileModel.ProfileModel(R.drawable.profile_1_1_cr, R.drawable.gallery_1_2, R.drawable.profile_1_1);
+		new UserProfileModel.ProfileModel(R.drawable.profile_1_1_cr, R.drawable.gallery_1_2, R.drawable.blog);
 	
 	
 	 /**
