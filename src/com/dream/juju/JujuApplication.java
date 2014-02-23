@@ -43,6 +43,7 @@ public class JujuApplication extends Application {
 	private final static String LOG_TAG = "JujuApplication";
 
 	public static final DisplayImageOptions ROUNDER = new DisplayImageOptions.Builder()
+			.cacheOnDisc(true).cacheInMemory(true)
 			.preProcessor(new BitmapProcessor() {
 
 				@Override
@@ -78,7 +79,8 @@ public class JujuApplication extends Application {
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(
 				this).threadPriority(Thread.NORM_PRIORITY - 2)
 				.denyCacheImageMultipleSizesInMemory()
-				.discCacheSize(50 * 1024 * 1024).memoryCacheSize(10 * 1024 * 1024)
+				.discCacheSize(50 * 1024 * 1024)
+				.memoryCacheSize(10 * 1024 * 1024)
 				.discCacheFileNameGenerator(new Md5FileNameGenerator())
 				.tasksProcessingOrder(QueueProcessingType.LIFO).build();
 		imageLoader.init(config);
