@@ -11,6 +11,7 @@ import com.parse.ParseUser;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import com.facebook.Request;
 import com.facebook.Response;
+import com.facebook.Session;
 import com.facebook.model.GraphUser;
 
 public class FacebookLoginActivity extends Activity {
@@ -38,6 +40,28 @@ public class FacebookLoginActivity extends Activity {
 
 		loginButton = (Button) findViewById(R.id.buttonFacebookLogin);
 		loginButton.setOnClickListener(loginButtonOnClick);
+
+		checkIfHasUser();
+	}
+
+	public void checkIfHasUser() {
+		ParseUser user = ParseUser.getCurrentUser();
+		if (user != null) {
+			JujuApplication.INSTANCE.user.parseUser = user;
+			if (ParseFacebookUtils.isLinked(user)) {
+				Request request = Request.newMeRequest(
+						ParseFacebookUtils.getSession(),
+						new Request.GraphUserCallback() {
+							@Override
+							public void onCompleted(GraphUser user,
+									Response response) {
+								JujuApplication.INSTANCE.user.graphUser = user;
+							}
+						});
+				request.executeAsync();
+			}
+			startMainActivity();
+		}
 	}
 
 	@Override
@@ -55,11 +79,16 @@ public class FacebookLoginActivity extends Activity {
 
 	private OnClickListener loginButtonOnClick = new OnClickListener() {
 		public void onClick(View view) {
+			final ProgressDialog dialog = new ProgressDialog(
+					FacebookLoginActivity.this);
+			dialog.setMessage("Logging in...");
+			dialog.show();
 			ParseFacebookUtils.logIn(FB_PERMISSIONS,
 					FacebookLoginActivity.this, new LogInCallback() {
 						@Override
 						public void done(ParseUser user, ParseException err) {
 							if (user == null) {
+								dialog.dismiss();
 								Log.d(LOG_TAG,
 										"Uh oh. The user cancelled the Facebook login.");
 								return;
@@ -72,8 +101,8 @@ public class FacebookLoginActivity extends Activity {
 										public void onCompleted(GraphUser user,
 												Response response) {
 											JujuApplication.INSTANCE.user.graphUser = user;
-											startActivity(new Intent(getApplicationContext(), MainActivity.class));
-											finish();
+											dialog.dismiss();
+											startMainActivity();
 										}
 									});
 							request.executeAsync();
@@ -82,4 +111,8 @@ public class FacebookLoginActivity extends Activity {
 		}
 	};
 
+	public void startMainActivity() {
+		startActivity(new Intent(getApplicationContext(), MainActivity.class));
+		finish();
+	}
 }
