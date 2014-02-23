@@ -5,14 +5,12 @@ import com.dream.juju.CircularLayout.CircularLayoutNode;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.view.ViewTreeObserver;
 
 public class MainActivity extends Activity implements CircularLayoutListener {
 
 	CircularLayout circularLayout;
 	CircularLayoutNode mainNode;
-	BubbleView bubbleView;
 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -32,30 +30,14 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 					.getChildAt(i + 1), parent));
 		}
 
-		bubbleView = (BubbleView) findViewById(R.id.bubble_view);
-		bubbleView.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				bubbleView.animate().alpha(0.0f).setDuration(500)
-						.withEndAction(new Runnable() {
-
-							@Override
-							public void run() {
-								bubbleView.stopAnimation();
-								circularLayout.initWithNode(mainNode, 300.0f);
-							}
-						}).start();
-			}
-		});
-		bubbleView.getViewTreeObserver().addOnGlobalLayoutListener(
+		circularLayout.getViewTreeObserver().addOnGlobalLayoutListener(
 				new ViewTreeObserver.OnGlobalLayoutListener() {
 					boolean done = false;
 
 					@Override
 					public void onGlobalLayout() {
 						if (!done) {
-							bubbleView.init();
-							bubbleView.startAnimation();
+							circularLayout.initWithNode(mainNode, 300.0f);
 							done = true;
 						}
 					}
