@@ -61,10 +61,10 @@ public class UserProfileActivity extends Activity {
 			profiles.profiles[0].dreamTitleId = R.drawable.headline_1_1;
 			profiles.profiles[0].dreamStoryId = R.string.dream_01_01;
 			profiles.profiles[0].galleryImageList = new int[] {
-				R.drawable.gallery_1_1_01, 
-				R.drawable.gallery_1_1_02_trim,
-				R.drawable.gallery_1_1_03,
-				R.drawable.gallery_1_1_04_trim,
+				//R.drawable.gallery_1_1_01, 
+				//R.drawable.gallery_1_1_02_trim,
+				//R.drawable.gallery_1_1_03,
+				//R.drawable.gallery_1_1_04_trim,
 				R.drawable.gallery_1_1_05,
 				R.drawable.gallery_1_1_06_trim
 			};
@@ -77,9 +77,9 @@ public class UserProfileActivity extends Activity {
 			profiles.profiles[1].galleryImageList = new int[] {
 				R.drawable.gallery_1_1_01, 
 				R.drawable.gallery_1_1_02_trim,
-				R.drawable.gallery_1_1_03,
-				R.drawable.gallery_1_1_04_trim,
-				R.drawable.gallery_1_1_05,
+				//R.drawable.gallery_1_1_03,
+				//R.drawable.gallery_1_1_04_trim,
+				//R.drawable.gallery_1_1_05,
 				R.drawable.gallery_1_1_06_trim
 			};
 			profiles.profiles[1].blogImageId = R.drawable.gallery_1_1_02;		// TODO - replace with the actual blog image

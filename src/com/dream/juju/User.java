@@ -10,6 +10,12 @@ public class User {
 	public User() {
 	}
 
-	public void getImageUrl() {
+	public String getImageUrl() {
+		if (graphUser != null) {
+			return "http://graph.facebook.com/" + graphUser.getId()
+					+ "/picture/";
+		} else {
+			return null;
+		}
 	}
 }

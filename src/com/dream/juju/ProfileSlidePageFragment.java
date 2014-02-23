@@ -18,7 +18,9 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -57,13 +59,14 @@ public class ProfileSlidePageFragment extends Fragment {
 	
 	private UserProfileModel.ProfileModel profile;
 
-	private View storyView, blogView;
+	private View storyView; // blogView;
+	private LinearLayout galleryContentView;
 	private SlidingUpPanelLayout slidingPanelLayoutMain, slidingPanelLayoutGallery;
 	
 	private GestureDetector gestureDetectorMain, gestureDetectorGallery;
 	
 	// Gallery pager
-	private ViewPager galleryView; 
+	// private ViewPager galleryView; 
 	private PagerAdapter pagerAdapter; 
 
 	
@@ -95,6 +98,11 @@ public class ProfileSlidePageFragment extends Fragment {
         //TextView dreamText = (TextView)rootView.findViewById(R.id.dream_text);
         ImageView blogImage = (ImageView)rootView.findViewById(R.id.blog_image);
         
+		// storyView = profileImage;// rootView.findViewById(R.id.story);
+		// galleryView = (ViewPager)rootView.findViewById(R.id.gallery);
+		//galleryContentView = (LinearLayout) rootView.findViewById(R.id.gallery_content);
+		//blogView = rootView.findViewById(R.id.blog);
+		
         Log.d(LOG_TAG, "onCreateView, profileImage = " + profileImage);
         
         if(profileImage != null && profile != null) {
@@ -112,12 +120,29 @@ public class ProfileSlidePageFragment extends Fragment {
 			slidingPanelLayoutGallery = (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout_gallery);
 			slidingPanelLayoutGallery.setAnchorPoint(0.01f);
 			slidingPanelLayoutGallery.setPanelSlideListener(new SlidingUpPanelLayout.SimplePanelSlideListener() {
-	            @Override
+	            boolean isOpen = false;
+				
+				@Override
 	            public void onPanelExpanded(View panel) {
 	                Log.i(LOG_TAG, "Blog panel expanded");
 	                slidingPanelLayoutMain.expandPane();
 	            }
-	
+	            
+	            @Override
+	            public void onPanelAnchored(View panel) {
+	            	if(!isOpen) {
+	            		//createGalleryImages(profile.galleryImageList, galleryContentView);
+	            		isOpen = true;
+	            		Log.i(LOG_TAG, "Gallery panel opened");
+	            	}
+	            }
+	            
+	            @Override
+	            public void onPanelCollapsed(View panel) {
+	            	//galleryContentView.removeAllViews();
+	            	isOpen = false;
+	            	Log.i(LOG_TAG, "Gallery panel closed");
+	            }
 			});
 			
 			slidingPanelLayoutMain.setPanelSlideListener(new SlidingUpPanelLayout.SimplePanelSlideListener() { 
@@ -128,9 +153,7 @@ public class ProfileSlidePageFragment extends Fragment {
 			});
 	
 			
-			// storyView = profileImage;// rootView.findViewById(R.id.story);
-			galleryView = (ViewPager)rootView.findViewById(R.id.gallery);
-			blogView = rootView.findViewById(R.id.blog);
+			// Create gallery images, put into galleryContentView
 			
 			// Detect scrolling up to show sliding panel for Gallery
 			gestureDetectorGallery = new GestureDetector(getActivity(), new GestureDetector.SimpleOnGestureListener() {
@@ -162,14 +185,28 @@ public class ProfileSlidePageFragment extends Fragment {
 			});
 			
 			// Set up gallery pager
-			pagerAdapter = new GallerySlidePagerAdapter(getFragmentManager(), profile.galleryImageList); 
-			galleryView.setAdapter(pagerAdapter);
+			//pagerAdapter = new GallerySlidePagerAdapter(getFragmentManager(), profile.galleryImageList); 
+			//galleryView.setAdapter(pagerAdapter);
 			
         	Log.d(LOG_TAG, "Profile view has been set up for profile " + profile);
 
         }
         
         return rootView;
+    }
+    
+    private void createGalleryImages(int[] imgList, ViewGroup container) {
+		for(int imgId: imgList) {
+			if(imgId != 0) {
+				ImageView imgView = new ImageView(getActivity());
+				imgView.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
+				imgView.setImageResource(imgId);
+				imgView.setBackgroundColor(0xFF8800);
+				container.addView(imgView);
+				Log.d(LOG_TAG, "Image " + imgView + " added, resId=" + imgId);
+			}
+		}
+    	
     }
  
 }
