@@ -17,6 +17,6 @@
     <dimen name="login_button_far_top">100dp</dimen>
 
     <!-- Circular Layout -->
-    <dimen name="circular_layout_node_size">50dp</dimen>
+    <dimen name="circular_layout_node_size">75dp</dimen>
 
 </resources>

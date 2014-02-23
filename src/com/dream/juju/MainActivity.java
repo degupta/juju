@@ -1,7 +1,10 @@
 package com.dream.juju;
 
+import java.util.List;
+
 import com.dream.juju.CircularLayout.CircularLayoutListener;
 import com.dream.juju.CircularLayout.CircularLayoutNode;
+import com.facebook.model.GraphUser;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -19,11 +22,29 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 		setContentView(R.layout.activity_main);
 		circularLayout = (CircularLayout) findViewById(R.id.circular_layout);
 		mainNode = new CircularLayoutNode(circularLayout.getChildAt(0), null);
-		String userImage = JujuApplication.INSTANCE.user.getImageUrl();
+
+		User user = JujuApplication.INSTANCE.user;
+		String userImage = user.getImageUrl();
 		if (userImage != null) {
 			JujuApplication.INSTANCE.imageLoader.displayImage(userImage,
-					(ImageView) circularLayout.getChildAt(0), JujuApplication.circleImageDisplayOptions());
+					(ImageView) circularLayout.getChildAt(0),
+					JujuApplication.ROUNDER);
 		}
+
+		user.getFriends(new Callback<List<GraphUser>>() {
+			@Override
+			public void callback(List<GraphUser> friends) {
+				int size = Math.min(friends.size(),
+						circularLayout.getChildCount() - 1);
+				for (int i = 0; i < size; i++) {
+					JujuApplication.INSTANCE.imageLoader.displayImage(
+							User.getFbImageUrl(friends.get(i).getId()),
+							(ImageView) circularLayout.getChildAt(i + 1),
+							JujuApplication.ROUNDER);
+				}
+			}
+		});
+
 		for (int i = 1; i < 7; i++) {
 			mainNode.children.add(new CircularLayoutNode(circularLayout
 					.getChildAt(i), mainNode));
