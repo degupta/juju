@@ -69,4 +69,12 @@
         android:layout_marginRight="50dp"
         android:src="@drawable/logo" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|left"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="50dp"
+        android:src="@drawable/surfer_bg_headline" />
+
 </FrameLayout>
