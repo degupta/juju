@@ -22,15 +22,15 @@ public class BubbleView extends View {
 	}
 
 	public static final int TIME_STEP = 50;
-	public static final int NUM_CIRCLE_GROUPS = 7;
-	public static final int NUM_CIRCLES_PER_GROUP = 20;
+	public static final int NUM_CIRCLE_GROUPS = 3;
+	public static final int NUM_CIRCLES_PER_GROUP = 30;
 	public static final int NUM_SUB_GROUPS = 5;
 	public static final float MIN_RADIUS = 50f;
 	public static final float MAX_RADIUS = 150f;
 	public static final float MIN_ALPHA = 0.1f;
 	public static final float MAX_ALPHA = 0.75f;
 	public static final float SPEED = -0.15f;
-	public static final float GROUP_HEIGHT = 700.0f;
+	public static final float GROUP_HEIGHT = 1000.0f;
 	public static final float GROUP_OVERLAP = 100.0f;
 	public static final int START_DREAMING_NO = 10000;
 	public static final int DREAMING_NO_SPEED = 1;
