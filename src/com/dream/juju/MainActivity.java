@@ -15,6 +15,14 @@ import android.widget.ImageView;
 
 public class MainActivity extends Activity implements CircularLayoutListener {
 
+	public static final int FACE_ID = 10;
+	public static final int STATS_ID = 20;
+	public static final int SEARCH_ID = 30;
+	public static final int FEATURED_ID = 40;
+	public static final int LIGHTBULB_ID = 50;
+	public static final int FRIENDS_ID = 60;
+	public static final int COMMUNITY_ID = 70;
+
 	CircularLayout circularLayout;
 	CircularLayoutNode mainNode;
 
@@ -23,44 +31,26 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 		setContentView(R.layout.activity_main);
 		circularLayout = (CircularLayout) findViewById(R.id.circular_layout);
 
-		mainNode = new CircularLayoutNode(newImageView(), null);
-		for (int i = 0; i < 6; i++) {
-			CircularLayoutNode child = new CircularLayoutNode(newImageView(),
-					mainNode);
-			mainNode.children.add(child);
+		mainNode = new CircularLayoutNode(newImageView(FACE_ID,
+				R.drawable.face, 161), null, 2, 1);
 
-			for (int j = 0; j < 12; j++) {
-				CircularLayoutNode grandChild = new CircularLayoutNode(
-						newImageView(), child);
-				child.children.add(grandChild);
-				for (int k = 0; k < 18; k++) {
-					grandChild.children.add(new CircularLayoutNode(
-							newImageView(), grandChild));
-				}
-			}
-		}
+		mainNode.children.add(new CircularLayoutNode(newImageView(COMMUNITY_ID,
+				R.drawable.community, 94), mainNode, 3.0f, 1.5f));
 
-		User user = JujuApplication.INSTANCE.user;
-		String userImage = user.getImageUrl();
-		if (userImage != null) {
-			JujuApplication.INSTANCE.imageLoader.displayImage(userImage,
-					(ImageView) circularLayout.getChildAt(0),
-					JujuApplication.ROUNDER);
-		}
+		mainNode.children.add(new CircularLayoutNode(newImageView(FRIENDS_ID,
+				R.drawable.friends, 105), mainNode, 4, 2));
 
-		user.getFriends(new Callback<List<GraphUser>>() {
-			@Override
-			public void callback(List<GraphUser> friends) {
-				int size = Math.min(friends.size(),
-						circularLayout.getChildCount() - 1);
-				for (int i = 0; i < size; i++) {
-					JujuApplication.INSTANCE.imageLoader.displayImage(
-							User.getFbImageUrl(friends.get(i).getId()),
-							(ImageView) circularLayout.getChildAt(i + 1),
-							JujuApplication.ROUNDER);
-				}
-			}
-		});
+		mainNode.children.add(new CircularLayoutNode(newImageView(FEATURED_ID,
+				R.drawable.featuredstar, 77), mainNode, 3, 1.5f));
+
+		mainNode.children.add(new CircularLayoutNode(newImageView(STATS_ID,
+				R.drawable.stats3, 73), mainNode, 3, 1.5f));
+
+		mainNode.children.add(new CircularLayoutNode(newImageView(LIGHTBULB_ID,
+				R.drawable.lightbulb, 73), mainNode, 5, 2.5f));
+
+		mainNode.children.add(new CircularLayoutNode(newImageView(SEARCH_ID,
+				R.drawable.search, 60), mainNode, 3, 1.5f));
 
 		circularLayout.getViewTreeObserver().addOnGlobalLayoutListener(
 				new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -70,7 +60,7 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 					public void onGlobalLayout() {
 						if (!done) {
 							circularLayout.listener = MainActivity.this;
-							circularLayout.initWithNode(mainNode, 300.0f);
+							circularLayout.initWithNode(mainNode, 325.0f);
 							done = true;
 						}
 					}
@@ -95,7 +85,8 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 
 	@Override
 	public void onLeafClicked(CircularLayoutNode node) {
-
+		Intent intent = new Intent(this, UserProfileActivity.class);
+		startActivity(intent);
 	}
 
 	@Override
@@ -104,11 +95,11 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 		startActivity(intent);
 	}
 
-	public ImageView newImageView() {
+	public ImageView newImageView(int id, int resId, int size) {
 		ImageView imageView = new ImageView(this);
-		imageView.setImageResource(R.drawable.ic_launcher);
-		circularLayout
-				.addChildView(imageView, (int) (Math.random() * 150 + 50));
+		imageView.setId(id);
+		imageView.setImageResource(resId);
+		circularLayout.addChildView(imageView, size);
 		return imageView;
 	}
 }
