@@ -6,6 +6,7 @@ package com.dream.juju;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 
 import android.os.Bundle;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.support.v13.app.FragmentStatePagerAdapter;
@@ -143,6 +144,13 @@ public class ProfileSlidePageFragment extends Fragment {
 						return true;
 					}
 					return false;
+				}
+				
+				@Override
+				public void onLongPress(MotionEvent e) {
+					Activity a = getActivity();
+					a.finish();
+					a.overridePendingTransition(0, R.anim.activity_exit);
 				}
 			});
 			profileImage.setOnTouchListener(new View.OnTouchListener() {

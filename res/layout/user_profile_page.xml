@@ -78,7 +78,7 @@
 	                android:layout_width="match_parent"
 	                android:layout_height="500dp"
 	                android:background="#0FF"
-	                android:scaleType="fitStart"/> -->
+	                android:scaleType="fitStart"/>
 		    
 		    <RelativeLayout 
 		        android:layout_width="match_parent" 
@@ -91,7 +91,23 @@
 				    android:layout_height="match_parent" 
 		            android:background="#ff0"
 				/>
-		    </RelativeLayout>
+		    </RelativeLayout>  -->
+		    
+		    <HorizontalScrollView 
+		        android:id="@+id/gallery"
+                android:background="#0FF"
+		        android:layout_width="match_parent"
+                android:layout_height="500dp" >
+                
+		        <LinearLayout 
+		            android:id="@+id/gallery_content"
+		            android:orientation="horizontal"
+		            android:layout_width="wrap_content"
+		            android:layout_height="match_parent" >
+		            
+		        </LinearLayout>
+		    </HorizontalScrollView>
+		    
 		    
 		</com.sothree.slidinguppanel.SlidingUpPanelLayout>
 	        	        
