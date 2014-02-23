@@ -20,6 +20,7 @@
             android:name="com.dream.juju.MainActivity"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize" >
+            
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,8 +36,14 @@
         </activity>
         <activity android:name="com.facebook.LoginActivity" />
         <activity
-            android:name="com.dream.juju.UserProfile"
-            android:label="@string/title_activity_user_profile" />
+            android:name="com.dream.juju.UserProfileActivity"
+            android:label="@string/title_activity_user_profile" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
