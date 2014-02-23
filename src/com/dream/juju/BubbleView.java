@@ -1,7 +1,10 @@
 package com.dream.juju;
 
+import java.text.DecimalFormat;
+
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
@@ -29,12 +32,15 @@ public class BubbleView extends View {
 	public static final float SPEED = -0.15f;
 	public static final float GROUP_HEIGHT = 1000.0f;
 	public static final float GROUP_OVERLAP = 100.0f;
+	public static final int START_DREAMING_NO = 10000;
+	public static final int DREAMING_NO_SPEED = 1;
 
 	public static final float RADIUS_DIFF = MAX_RADIUS - MIN_RADIUS;
 	public static final float ALPHA_DIFF = MAX_ALPHA - MIN_ALPHA;
 
 	public static final CircleGroup[] CIRCLE_GROUPS = new CircleGroup[NUM_CIRCLE_GROUPS];
 	public static final Paint PAINT = new Paint();
+	public static final DecimalFormat FORMATTER = new DecimalFormat("#,###,###");
 
 	Runnable animation = new Runnable() {
 		@Override
@@ -42,14 +48,15 @@ public class BubbleView extends View {
 			for (int i = 0; i < NUM_CIRCLE_GROUPS; i++) {
 				updateGroup(CIRCLE_GROUPS[i], TIME_STEP);
 			}
+			numPeople += DREAMING_NO_SPEED;
 			invalidate();
 			postDelayed(this, TIME_STEP);
 		}
 	};
 
 	boolean inited = false;
-
 	CircleGroup bottomMostGroup = null;
+	public int numPeople = 0;
 
 	public BubbleView(Context context) {
 		super(context);
@@ -73,6 +80,7 @@ public class BubbleView extends View {
 			CIRCLE_GROUPS[i] = g;
 		}
 		bottomMostGroup = CIRCLE_GROUPS[NUM_CIRCLE_GROUPS - 1];
+		numPeople = START_DREAMING_NO;
 		inited = true;
 	}
 
@@ -122,7 +130,8 @@ public class BubbleView extends View {
 			float x, y, ordinate;
 			for (int i = 0; i < len; i++) {
 				y = -(circles[i].y + g.y) + height;
-				ordinate = y / height * (CircularLayout.PI_2) - CircularLayout.PI_2 / 2.0f;
+				ordinate = y / height * (CircularLayout.PI_2)
+						- CircularLayout.PI_2 / 2.0f;
 				x = (float) Math.sin(ordinate) * amplitude;
 				x += (2 * Math.random() - 1) * width * 0.001f;
 				circles[i].aX = x;
@@ -143,6 +152,11 @@ public class BubbleView extends View {
 		if (!inited || getVisibility() != View.VISIBLE) {
 			return;
 		}
+		PAINT.setTextSize(200.0f);
+		PAINT.setColor(Color.BLACK);
+		canvas.drawText(FORMATTER.format(numPeople), 60, 350, PAINT);
+		PAINT.setTextSize(50.0f);
+		canvas.drawText("PEOPLE DREAMING", 100, 450, PAINT);
 		Circle c;
 		CircleGroup g;
 		float height = getHeight();

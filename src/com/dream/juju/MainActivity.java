@@ -36,8 +36,15 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 		bubbleView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				bubbleView.stopAnimation();
-				circularLayout.initWithNode(mainNode, 300.0f);
+				bubbleView.animate().alpha(0.0f).setDuration(500)
+						.withEndAction(new Runnable() {
+
+							@Override
+							public void run() {
+								bubbleView.stopAnimation();
+								circularLayout.initWithNode(mainNode, 300.0f);
+							}
+						}).start();
 			}
 		});
 		bubbleView.getViewTreeObserver().addOnGlobalLayoutListener(
