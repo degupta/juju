@@ -15,6 +15,7 @@ public class CircularLayout extends FrameLayout {
 	public static final float CENTER_SCALE = 1.0f;
 	
 	public static interface CircularLayoutListener {
+		public void onRootClicked(CircularLayoutNode node);
 		public void onLeafClicked(CircularLayoutNode node);
 	}
 
@@ -40,7 +41,9 @@ public class CircularLayout extends FrameLayout {
 		@Override
 		public void onClick(View v) {
 			if (node.parent == null) {
-				return;
+				if (listener != null) {
+					listener.onRootClicked(node);
+				}
 			} else if (currentNode == node) {
 				animateToParent(node);
 			} else if (node.children.size() > 0) {
@@ -88,9 +91,7 @@ public class CircularLayout extends FrameLayout {
 		View view = node.view;
 		ArrayList<CircularLayoutNode> children = node.children;
 		int size = children.size();
-		if (size > 0) {
-			view.setOnClickListener(new CircularLayoutNodeOnClickListener(node));
-		}
+		view.setOnClickListener(new CircularLayoutNodeOnClickListener(node));
 		centerAndReset(view, false);
 		for (int i = 0; i < size; i++) {
 			initAllChildren(children.get(i));

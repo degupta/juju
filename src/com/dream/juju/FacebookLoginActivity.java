@@ -45,6 +45,10 @@ public class FacebookLoginActivity extends Activity {
 		ParseUser user = ParseUser.getCurrentUser();
 		if (user != null) {
 			JujuApplication.INSTANCE.user.parseUser = user;
+			final ProgressDialog dialog = new ProgressDialog(
+					FacebookLoginActivity.this);
+			dialog.setMessage("Logging in...");
+			dialog.show();
 			if (ParseFacebookUtils.isLinked(user)) {
 				Request request = Request.newMeRequest(
 						ParseFacebookUtils.getSession(),
@@ -53,10 +57,13 @@ public class FacebookLoginActivity extends Activity {
 							public void onCompleted(GraphUser user,
 									Response response) {
 								JujuApplication.INSTANCE.user.graphUser = user;
+								dialog.dismiss();
+								startMainActivity();
 							}
 						});
 				request.executeAsync();
 			}
+		} else {
 			startMainActivity();
 		}
 	}
