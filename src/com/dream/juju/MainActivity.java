@@ -95,7 +95,7 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 	public ImageView newImageView() {
 		ImageView imageView = new ImageView(this);
 		imageView.setImageResource(R.drawable.ic_launcher);
-		circularLayout.addChildView(imageView);
+		circularLayout.addChildView(imageView, (int) (Math.random() * 150 + 50));
 		return imageView;
 	}
 }

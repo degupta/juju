@@ -30,10 +30,18 @@ public class CircularLayout extends FrameLayout {
 		public ArrayList<CircularLayoutNode> children = new ArrayList<CircularLayoutNode>();
 		public View view;
 		public CircularLayoutNode parent;
+		public float centerScale, childScale;
 
 		public CircularLayoutNode(View view, CircularLayoutNode parent) {
+			this(view, parent, CENTER_SCALE, CHILD_SCALE);
+		}
+
+		public CircularLayoutNode(View view, CircularLayoutNode parent,
+				float centerScale, float childScale) {
 			this.view = view;
 			this.parent = parent;
+			this.centerScale = centerScale;
+			this.childScale = childScale;
 		}
 	}
 
@@ -122,6 +130,12 @@ public class CircularLayout extends FrameLayout {
 		addView(view, params);
 	}
 
+	public void addChildView(View view, int size) {
+		FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(size,
+				size);
+		addView(view, params);
+	}
+
 	public void initialAnimation() {
 		if (animating) {
 			return;
@@ -131,8 +145,8 @@ public class CircularLayout extends FrameLayout {
 		final int childAnimTime = 2000;
 		View view = currentNode.view;
 		centerAndReset(view, true);
-		view.animate().alpha(1.0f).scaleX(CENTER_SCALE).scaleY(CENTER_SCALE)
-				.setDuration(centerAnimTime)
+		view.animate().alpha(1.0f).scaleX(currentNode.centerScale)
+				.scaleY(currentNode.centerScale).setDuration(centerAnimTime)
 				.setInterpolator(new DecelerateInterpolator(1.0f))
 				.withEndAction(new Runnable() {
 
@@ -164,13 +178,14 @@ public class CircularLayout extends FrameLayout {
 		}
 
 		for (int i = 0; i < siblingsSize; i++) {
-			View child = siblings.get(i).view;
+			CircularLayoutNode sibling = siblings.get(i);
+			View child = sibling.view;
 			if (child == view) {
 				float currentDegree = PI_2 / siblingsSize * i;
 				float x = getX(currentDegree, child);
 				float y = getY(currentDegree, child);
-				child.animate().scaleX(CHILD_SCALE).x(x).y(y)
-						.scaleY(CHILD_SCALE).setDuration(centerAnimTime)
+				child.animate().scaleX(sibling.childScale).x(x).y(y)
+						.scaleY(sibling.childScale).setDuration(centerAnimTime)
 						.setInterpolator(new DecelerateInterpolator(1.0f))
 						.withEndAction(new Runnable() {
 
@@ -193,7 +208,9 @@ public class CircularLayout extends FrameLayout {
 								};
 								int num = 0;
 								for (int i = 0; i < siblingsSize; i++) {
-									View child = siblings.get(i).view;
+									CircularLayoutNode sibling = siblings
+											.get(i);
+									View child = sibling.view;
 									child.setVisibility(View.VISIBLE);
 									float currentDegree = PI_2 / siblingsSize
 											* i;
@@ -203,8 +220,8 @@ public class CircularLayout extends FrameLayout {
 										child.setX(x);
 										child.setY(y);
 										child.setAlpha(0.0f);
-										child.setScaleX(CHILD_SCALE);
-										child.setScaleY(CHILD_SCALE);
+										child.setScaleX(sibling.childScale);
+										child.setScaleY(sibling.childScale);
 										child.animate()
 												.alpha(1.0f)
 												.setInterpolator(
@@ -224,8 +241,8 @@ public class CircularLayout extends FrameLayout {
 								parentView.setY(centerY
 										- parentView.getHeight() / 2);
 								parentView.setAlpha(0.0f);
-								parentView.setScaleX(CENTER_SCALE);
-								parentView.setScaleY(CENTER_SCALE);
+								parentView.setScaleX(parent.centerScale);
+								parentView.setScaleY(parent.centerScale);
 								parentView
 										.animate()
 										.alpha(1.0f)
@@ -259,8 +276,8 @@ public class CircularLayout extends FrameLayout {
 		View view = node.view;
 		float x = centerX - view.getWidth() / 2;
 		float y = centerY - view.getHeight() / 2;
-		view.animate().scaleX(CENTER_SCALE).scaleY(CENTER_SCALE).x(x).y(y)
-				.setDuration(centerAnimTime)
+		view.animate().scaleX(node.centerScale).scaleY(node.centerScale).x(x)
+				.y(y).setDuration(centerAnimTime)
 				.setInterpolator(new DecelerateInterpolator(1.0f))
 				.withEndAction(new Runnable() {
 
@@ -284,13 +301,14 @@ public class CircularLayout extends FrameLayout {
 		animating = true;
 		final int[] animationsToGo = new int[] { size };
 		for (int i = 0; i < size; i++) {
-			View child = nodes.get(i).view;
+			CircularLayoutNode node = nodes.get(i);
+			View child = node.view;
 			centerAndReset(child, true);
 			float currentDegree = PI_2 / size * i;
 			float x = getX(currentDegree, child);
 			float y = getY(currentDegree, child);
 			child.animate().alpha(1.0f).x(x).y(y).setDuration(animTime)
-					.scaleX(CHILD_SCALE).scaleY(CHILD_SCALE)
+					.scaleX(node.childScale).scaleY(node.childScale)
 					.setInterpolator(new DecelerateInterpolator(1.0f))
 					.setStartDelay(i * 200).withEndAction(new Runnable() {
 
