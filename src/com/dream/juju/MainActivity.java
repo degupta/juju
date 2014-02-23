@@ -28,11 +28,14 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 					mainNode);
 			mainNode.children.add(child);
 
-			for (int j = 0; j < 6; j++) {
-				child.children
-						.add(new CircularLayoutNode(newImageView(), child));
-				child.children
-						.add(new CircularLayoutNode(newImageView(), child));
+			for (int j = 0; j < 12; j++) {
+				CircularLayoutNode grandChild = new CircularLayoutNode(
+						newImageView(), child);
+				child.children.add(grandChild);
+				for (int k = 0; k < 18; k++) {
+					grandChild.children.add(new CircularLayoutNode(
+							newImageView(), grandChild));
+				}
 			}
 		}
 
