@@ -60,7 +60,7 @@ public class UserProfileActivity extends Activity {
 			profiles.profiles = new UserProfileModel.ProfileModel[1];
 			profiles.profiles[0] = new UserProfileModel.ProfileModel();
 			
-			profiles.profiles[0].profilePictureId = R.drawable.header_profile_1;
+			profiles.profiles[0].profilePictureId = R.drawable.profile_1_1;
 			profiles.profiles[0].dreamTitleId = R.drawable.headline_1_1;
 			profiles.profiles[0].dreamStoryId = R.string.dream_01_01;
 			profiles.profiles[0].galleryImageList = new int[] {
@@ -78,9 +78,12 @@ public class UserProfileActivity extends Activity {
 		
 		setContentView(R.layout.activity_user_profile);
 		
-		viewPager = (ViewPager)findViewById(R.id.profile_pager);
-		pagerAdapter = new ProfileSlidePagerAdapter(getFragmentManager(), profiles); 
-		viewPager.setAdapter(pagerAdapter);
+		//viewPager = (ViewPager)findViewById(R.id.profile_pager);
+		//pagerAdapter = new ProfileSlidePagerAdapter(getFragmentManager(), profiles); 
+		//viewPager.setAdapter(pagerAdapter);
+		
+		Fragment profileFragment = ProfileSlidePageFragment.create(profiles.profiles[0]);
+		getFragmentManager().beginTransaction().add(R.id.test_activity, profileFragment, "1").commit();
 		
 	}
 	

@@ -21,11 +21,6 @@
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize" >
             
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <meta-data
@@ -38,12 +33,12 @@
         <activity
             android:name="com.dream.juju.UserProfileActivity"
             android:label="@string/title_activity_user_profile" >
-            <intent-filter>
+                     <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+            </activity>
     </application>
 
 </manifest>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    >
     
     <!-- Main sliding panel serves blog -->
     <com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -11,6 +12,7 @@
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
         sothree:collapsedHeight="0dp"
+        sothree:fadeColor="#00000000"
         sothree:shadowHeight="4dp">
 
         <!-- Nested sliding panel serves gallery -->
@@ -21,10 +23,20 @@
 	        android:layout_height="match_parent"
 	        android:layout_gravity="bottom"
 	        sothree:collapsedHeight="0dp"
+	        sothree:fadeColor="#00000000"
 	        sothree:shadowHeight="4dp">
 
 	        <!-- Main story page: profile image, dream title, dream text -->
-	        <LinearLayout 
+	        <ImageView 
+	            android:id="@+id/profile_image"
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:background="#900"
+	            android:clickable="true"
+	        	android:focusable="false"
+	        	android:scaleType="fitStart"
+	            />
+	        <!-- <LinearLayout 
 	            android:id="@+id/story"            
 	            android:layout_width="match_parent"
 	            android:layout_height="match_parent"
@@ -37,12 +49,14 @@
 	                android:id="@+id/profile_image"
 	                android:layout_width="match_parent"
 	                android:layout_height="200dp"
+	                android:background="#F00"
 		            android:scaleType="fitStart"/>
 	            
 	            <ImageView
 	                android:id="@+id/dream_image"
 	                android:layout_width="match_parent"
 	                android:layout_height="100dp"
+	                android:background="#0F0"
 	                android:scaleType="fitStart"/>
 	            	            	            
                 <TextView
@@ -52,22 +66,37 @@
                     android:layout_weight="1"
                     android:textSize="14sp"
                     android:textColor="#000"
+	                android:background="#00F"
                     android:gravity="center_vertical"
                     android:paddingLeft="10dp"/>
 	            	            
-	        </LinearLayout>
+	        </LinearLayout>  -->
 	        
 			<!-- Gallery page - pager with images -->
-		    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+			<!-- <ImageView 
 			    android:id="@+id/gallery"
-			    android:layout_width="match_parent"
-	            android:background="#ff0"
-			    android:layout_height="500dp" />
+	                android:layout_width="match_parent"
+	                android:layout_height="500dp"
+	                android:background="#0FF"
+	                android:scaleType="fitStart"/> -->
+		    
+		    <RelativeLayout 
+		        android:layout_width="match_parent" 
+		        android:layout_height="200dp" 
+		        android:background="#770"
+		        >
+			    <android.support.v4.view.ViewPager
+				    android:id="@+id/gallery"
+				    android:layout_width="match_parent" 
+				    android:layout_height="match_parent" 
+		            android:background="#ff0"
+				/>
+		    </RelativeLayout>
 		    
 		</com.sothree.slidinguppanel.SlidingUpPanelLayout>
 	        	        
         <!-- Blog - image and some buttons -->
-        <RelativeLayout 
+        <ScrollView 
             android:id="@+id/blog"
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
@@ -76,18 +105,10 @@
 			    android:id="@+id/blog_image"
 			    android:layout_width="match_parent"
 			    android:layout_height="wrap_content"
-			    android:scaleType="fitStart" />
+			    android:background="#999"
+			    android:scaleType="centerCrop" />
             				
-			<Button
-                android:id="@+id/blog_post_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:gravity="center_vertical|right"
-                android:paddingRight="10dp"
-                android:paddingLeft="10dp"/>
-            
-        </RelativeLayout>
+        </ScrollView>
 	        
      </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 	        

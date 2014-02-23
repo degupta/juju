@@ -35,12 +35,13 @@ public class ProfileSlidePageFragment extends Fragment {
         public GallerySlidePagerAdapter(FragmentManager fm, int[] list) {
             super(fm);
             imageList = list;
+        	Log.d(LOG_TAG, "Creating adapter for " + imageList);
         }
 
         @Override
         public Fragment getItem(int position) {
         	Log.d(LOG_TAG, "Creating gallery fragment for position " + position);
-            return GallerySlidePageFragment.create(imageList[position]);
+            return GallerySlidePageFragment.create(imageList[position], position);
         }
 
         @Override
@@ -89,8 +90,8 @@ public class ProfileSlidePageFragment extends Fragment {
         
         // Set basic content (images, text)
         ImageView profileImage = (ImageView)rootView.findViewById(R.id.profile_image);
-        ImageView dreamImage = (ImageView)rootView.findViewById(R.id.dream_image);
-        TextView dreamText = (TextView)rootView.findViewById(R.id.dream_text);
+        //ImageView dreamImage = (ImageView)rootView.findViewById(R.id.dream_image);
+        //TextView dreamText = (TextView)rootView.findViewById(R.id.dream_text);
         ImageView blogImage = (ImageView)rootView.findViewById(R.id.blog_image);
         
         Log.d(LOG_TAG, "onCreateView, profileImage = " + profileImage);
@@ -98,8 +99,8 @@ public class ProfileSlidePageFragment extends Fragment {
         if(profileImage != null && profile != null) {
         
 	        profileImage.setImageResource(profile.profilePictureId);
-	        dreamImage.setImageResource(profile.dreamTitleId);
-	        dreamText.setText(profile.dreamStoryId);
+	        //dreamImage.setImageResource(profile.dreamTitleId);
+	        //dreamText.setText(profile.dreamStoryId);
 	        blogImage.setImageResource(profile.blogImageId);
 	
 	        // Set up vertical sliding stuff
@@ -117,9 +118,16 @@ public class ProfileSlidePageFragment extends Fragment {
 	            }
 	
 			});
+			
+			slidingPanelLayoutMain.setPanelSlideListener(new SlidingUpPanelLayout.SimplePanelSlideListener() { 
+				@Override
+				public void onPanelCollapsed(View panel) {
+					slidingPanelLayoutGallery.expandPane(0.01f);
+				}
+			});
 	
 			
-			storyView = rootView.findViewById(R.id.story);
+			// storyView = profileImage;// rootView.findViewById(R.id.story);
 			galleryView = (ViewPager)rootView.findViewById(R.id.gallery);
 			blogView = rootView.findViewById(R.id.blog);
 			
@@ -137,7 +145,7 @@ public class ProfileSlidePageFragment extends Fragment {
 					return false;
 				}
 			});
-			storyView.setOnTouchListener(new View.OnTouchListener() {
+			profileImage.setOnTouchListener(new View.OnTouchListener() {
 				
 				@Override
 				public boolean onTouch(View v, MotionEvent event) {
