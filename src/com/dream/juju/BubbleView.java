@@ -1,5 +1,7 @@
 package com.dream.juju;
 
+import java.text.DecimalFormat;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,37 +11,52 @@ import android.view.View;
 
 public class BubbleView extends View {
 	private static class Circle {
-		float x, y;
+		float x, aX, y;
 		float radius;
-		float speed;
 		int color;
 	}
 
-	public static final int NUM_CIRCLES = 40;
-	public static final float MIN_RADIUS = 0.05f;
-	public static final float MAX_RADIUS = 0.25f;
-	public static final float MIN_SPEED = 0.05f;
-	public static final float MAX_SPEED = 0.15f;
-	public static final float MAX_BELOW = 1000.0f;
+	private static class CircleGroup {
+		Circle[] circles;
+		float x, y;
+	}
 
-	public static final float SPEED_DIFF = MAX_SPEED - MIN_SPEED;
+	public static final int TIME_STEP = 50;
+	public static final int NUM_CIRCLE_GROUPS = 7;
+	public static final int NUM_CIRCLES_PER_GROUP = 20;
+	public static final int NUM_SUB_GROUPS = 5;
+	public static final float MIN_RADIUS = 50f;
+	public static final float MAX_RADIUS = 150f;
+	public static final float MIN_ALPHA = 0.1f;
+	public static final float MAX_ALPHA = 0.75f;
+	public static final float SPEED = -0.15f;
+	public static final float GROUP_HEIGHT = 700.0f;
+	public static final float GROUP_OVERLAP = 100.0f;
+	public static final int START_DREAMING_NO = 10000;
+	public static final int DREAMING_NO_SPEED = 1;
+
 	public static final float RADIUS_DIFF = MAX_RADIUS - MIN_RADIUS;
+	public static final float ALPHA_DIFF = MAX_ALPHA - MIN_ALPHA;
 
-	public static final Circle[] CIRCLES = new Circle[NUM_CIRCLES];
+	public static final CircleGroup[] CIRCLE_GROUPS = new CircleGroup[NUM_CIRCLE_GROUPS];
 	public static final Paint PAINT = new Paint();
+	public static final DecimalFormat FORMATTER = new DecimalFormat("#,###,###");
 
 	Runnable animation = new Runnable() {
 		@Override
 		public void run() {
-			for (int i = 0; i < NUM_CIRCLES; i++) {
-				updateCircle(CIRCLES[i], 50);
+			for (int i = 0; i < NUM_CIRCLE_GROUPS; i++) {
+				updateGroup(CIRCLE_GROUPS[i], TIME_STEP);
 			}
+			numPeople += DREAMING_NO_SPEED;
 			invalidate();
-			postDelayed(this, 50);
+			postDelayed(this, TIME_STEP);
 		}
 	};
 
 	boolean inited = false;
+	CircleGroup bottomMostGroup = null;
+	public int numPeople = 0;
 
 	public BubbleView(Context context) {
 		super(context);
@@ -54,30 +71,71 @@ public class BubbleView extends View {
 	}
 
 	public void init() {
-		for (int i = 0; i < NUM_CIRCLES; i++) {
-			CIRCLES[i] = new Circle();
-			initRandomly(CIRCLES[i]);
+		CircleGroup g;
+		float height = getHeight();
+		for (int i = 0; i < NUM_CIRCLE_GROUPS; i++) {
+			g = new CircleGroup();
+			g.circles = new Circle[NUM_CIRCLES_PER_GROUP];
+			resetGroup(g, height + i * GROUP_HEIGHT);
+			CIRCLE_GROUPS[i] = g;
 		}
+		bottomMostGroup = CIRCLE_GROUPS[NUM_CIRCLE_GROUPS - 1];
+		numPeople = START_DREAMING_NO;
 		inited = true;
 	}
 
-	public void initRandomly(Circle c) {
+	public void resetGroup(CircleGroup g, float y) {
 		float halfWidth = getWidth() / 2.0f;
-		c.radius = (float) (halfWidth * Math.random() * RADIUS_DIFF + MIN_RADIUS);
-		c.x = (float) ((2 * Math.random() - 1) * halfWidth * MAX_RADIUS + halfWidth);
-		c.y = getHeight() + (float) (Math.random() * MAX_BELOW) + c.radius;
-		c.speed = -(float) (Math.random() * SPEED_DIFF + MIN_SPEED);
-		c.color = Color.argb((int) (Math.random() * 255),
-				(int) (Math.random() * 255), (int) (Math.random() * 255),
-				(int) (Math.random() * 255));
+		g.x = halfWidth;
+		g.y = y;
+		int red = (int) (Math.random() * 255);
+		int green = (int) (Math.random() * 255);
+		int blue = (int) (Math.random() * 255);
+		int color = 0x00000000 | (red << 16) | (green << 8) | blue;
+
+		Circle[] circles = g.circles;
+		int len = circles.length;
+		for (int i = 0; i < len; i++) {
+			Circle c = circles[i];
+			if (c == null) {
+				circles[i] = new Circle();
+				c = circles[i];
+			}
+			int alpha = (int) ((Math.random() * ALPHA_DIFF + MIN_ALPHA) * 255.0f);
+			c.color = color | ((alpha << 24) & 0xFF000000);
+			c.radius = (float) (Math.random() * RADIUS_DIFF + MIN_RADIUS);
+			c.x = (float) ((2 * Math.random() - 1) * halfWidth * 0.3f);
+			c.aX = 0.0f;
+			c.y = GROUP_HEIGHT / len * i;
+			if (c.y + c.radius > GROUP_HEIGHT + GROUP_OVERLAP) {
+				c.y = GROUP_HEIGHT + GROUP_OVERLAP - c.radius;
+			}
+			if (c.y - c.radius < -GROUP_OVERLAP) {
+				c.y = c.radius - GROUP_OVERLAP;
+			}
+		}
 	}
 
-	public void updateCircle(Circle c, float deltaTime) {
-		c.y += c.speed * deltaTime;
-		if (c.y + c.radius <= 0) {
-			initRandomly(c);
+	public void updateGroup(CircleGroup g, float deltaTime) {
+		g.y += SPEED * deltaTime;
+		if (g.y + GROUP_HEIGHT <= 0) {
+			resetGroup(g, bottomMostGroup.y + GROUP_HEIGHT);
+			bottomMostGroup = g;
 		} else {
-			c.x += (2 * Math.random() - 1) * getWidth() * 0.001f;
+			float width = getWidth();
+			float amplitude = -width / 6.0f;
+			float height = getHeight();
+			Circle[] circles = g.circles;
+			int len = circles.length;
+			float x, y, ordinate;
+			for (int i = 0; i < len; i++) {
+				y = -(circles[i].y + g.y) + height;
+				ordinate = y / height * (CircularLayout.PI_2)
+						- CircularLayout.PI_2 / 2.0f;
+				x = (float) Math.sin(ordinate) * amplitude;
+				x += (2 * Math.random() - 1) * width * 0.001f;
+				circles[i].aX = x;
+			}
 		}
 	}
 
@@ -95,14 +153,30 @@ public class BubbleView extends View {
 			return;
 		}
 		Circle c;
-		int height = getHeight();
-		for (int i = 0; i < NUM_CIRCLES; i++) {
-			c = CIRCLES[i];
-			if (c.y - c.radius >= height) {
-				continue;
+		CircleGroup g;
+		float height = getHeight();
+		float width = getWidth();
+		for (int i = 0; i < NUM_CIRCLE_GROUPS; i++) {
+			g = CIRCLE_GROUPS[i];
+			Circle[] circles = g.circles;
+			int len = circles.length;
+			for (int j = 0; j < len; j++) {
+				c = circles[j];
+				float x = g.x + c.x + c.aX;
+				float y = g.y + c.y;
+				float radius = c.radius;
+				if (y - radius >= height || y + radius <= 0
+						|| x - radius >= width || x + radius <= 0) {
+					continue;
+				}
+				PAINT.setColor(c.color);
+				canvas.drawCircle(x, y, radius, PAINT);
 			}
-			PAINT.setColor(c.color);
-			canvas.drawCircle(c.x, c.y, c.radius, PAINT);
 		}
+		PAINT.setTextSize(200.0f);
+		PAINT.setColor(Color.BLACK);
+		canvas.drawText(FORMATTER.format(numPeople), 60, 350, PAINT);
+		PAINT.setTextSize(50.0f);
+		canvas.drawText("PEOPLE DREAMING", 100, 450, PAINT);
 	}
 }

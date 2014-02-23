@@ -6,6 +6,7 @@ import com.dream.juju.CircularLayout.CircularLayoutNode;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewTreeObserver;
 
 public class MainActivity extends Activity implements CircularLayoutListener {
 
@@ -35,18 +36,30 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 		bubbleView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				bubbleView.stopAnimation();
-				circularLayout.initWithNode(mainNode, 300.0f);
+				bubbleView.animate().alpha(0.0f).setDuration(500)
+						.withEndAction(new Runnable() {
+
+							@Override
+							public void run() {
+								bubbleView.stopAnimation();
+								circularLayout.initWithNode(mainNode, 300.0f);
+							}
+						}).start();
 			}
 		});
-		bubbleView.postDelayed(new Runnable() {
+		bubbleView.getViewTreeObserver().addOnGlobalLayoutListener(
+				new ViewTreeObserver.OnGlobalLayoutListener() {
+					boolean done = false;
 
-			@Override
-			public void run() {
-				bubbleView.init();
-				bubbleView.startAnimation();
-			}
-		}, 1500);
+					@Override
+					public void onGlobalLayout() {
+						if (!done) {
+							bubbleView.init();
+							bubbleView.startAnimation();
+							done = true;
+						}
+					}
+				});
 	}
 
 	public void onBackPressed() {
@@ -57,6 +70,6 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 
 	@Override
 	public void onLeafClicked(CircularLayoutNode node) {
-		
+
 	}
 }
