@@ -37,7 +37,8 @@
         <activity android:name="com.facebook.LoginActivity" />
         <activity
             android:name="com.dream.juju.UserProfileActivity"
-            android:label="@string/title_activity_user_profile" >
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="portrait" >
         </activity>
          <activity
             android:name="com.dream.juju.BubbleActivity"
