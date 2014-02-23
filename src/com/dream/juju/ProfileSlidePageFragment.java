@@ -90,13 +90,14 @@ public class ProfileSlidePageFragment extends Fragment {
             Bundle savedInstanceState) {
         
     	// Inflate the layout 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.user_profile_page, container, false);
+        final ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.user_profile_page, container, false);
         
         // Set basic content (images, text)
         ImageView profileImage = (ImageView)rootView.findViewById(R.id.profile_image);
         //ImageView dreamImage = (ImageView)rootView.findViewById(R.id.dream_image);
         //TextView dreamText = (TextView)rootView.findViewById(R.id.dream_text);
         ImageView blogImage = (ImageView)rootView.findViewById(R.id.blog_image);
+        ImageView galleryImage = (ImageView)rootView.findViewById(R.id.gallery_image);
         
 		// storyView = profileImage;// rootView.findViewById(R.id.story);
 		// galleryView = (ViewPager)rootView.findViewById(R.id.gallery);
@@ -110,14 +111,17 @@ public class ProfileSlidePageFragment extends Fragment {
 	        profileImage.setImageResource(profile.profilePictureId);
 	        //dreamImage.setImageResource(profile.dreamTitleId);
 	        //dreamText.setText(profile.dreamStoryId);
-	        blogImage.setImageResource(profile.blogImageId);
+	        blogImage.setImageResource(profile.blogPictureId);
+	        galleryImage.setImageResource(profile.galleryPictureId);
 	
 	        // Set up vertical sliding stuff
 			slidingPanelLayoutMain = (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout_main);
 			slidingPanelLayoutMain.setShadowDrawable(getResources().getDrawable(R.drawable.above_shadow));
+			slidingPanelLayoutMain.setEnableDragViewTouchEvents(true);
 			//slidingPanelLayoutMain.setAnchorPoint(0.5f);
 	
 			slidingPanelLayoutGallery = (SlidingUpPanelLayout) rootView.findViewById(R.id.sliding_layout_gallery);
+			slidingPanelLayoutGallery.setEnableDragViewTouchEvents(true);
 			slidingPanelLayoutGallery.setAnchorPoint(0.01f);
 			slidingPanelLayoutGallery.setPanelSlideListener(new SlidingUpPanelLayout.SimplePanelSlideListener() {
 	            boolean isOpen = false;
@@ -126,6 +130,15 @@ public class ProfileSlidePageFragment extends Fragment {
 	            public void onPanelExpanded(View panel) {
 	                Log.i(LOG_TAG, "Blog panel expanded");
 	                slidingPanelLayoutMain.expandPane();
+	                rootView.post(new Runnable() {
+						
+						@Override
+						public void run() {
+							slidingPanelLayoutGallery.collapsePane();
+							
+						}
+					});
+	                
 	            }
 	            
 	            @Override
@@ -148,7 +161,7 @@ public class ProfileSlidePageFragment extends Fragment {
 			slidingPanelLayoutMain.setPanelSlideListener(new SlidingUpPanelLayout.SimplePanelSlideListener() { 
 				@Override
 				public void onPanelCollapsed(View panel) {
-					slidingPanelLayoutGallery.expandPane(0.01f);
+					//slidingPanelLayoutGallery.expandPane(0.01f);
 				}
 			});
 	
