@@ -86,6 +86,29 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 	@Override
 	public void onLeafClicked(CircularLayoutNode node) {
 		Intent intent = new Intent(this, UserProfileActivity.class);
+		switch (node.view.getId()) {
+		case FACE_ID:
+			break;
+		case SEARCH_ID:
+			intent.putExtra(UserProfileActivity.CURRENT_PROFILE_EXTRA, 0);
+			break;
+		case STATS_ID:
+			intent.putExtra(UserProfileActivity.CURRENT_PROFILE_EXTRA, 1);
+			break;
+		case COMMUNITY_ID:
+			intent.putExtra(UserProfileActivity.CURRENT_PROFILE_EXTRA, 2);
+			break;
+		case LIGHTBULB_ID:
+			intent.putExtra(UserProfileActivity.CURRENT_PROFILE_EXTRA, 0);
+			break;
+		case FRIENDS_ID:
+			intent.putExtra(UserProfileActivity.CURRENT_PROFILE_EXTRA, 1);
+			break;
+		case FEATURED_ID:
+			intent.putExtra(UserProfileActivity.CURRENT_PROFILE_EXTRA, 2);
+			break;
+		}
+
 		startActivity(intent);
 	}
 
