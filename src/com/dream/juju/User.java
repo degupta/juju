@@ -13,7 +13,7 @@ public class User {
 	public String getImageUrl() {
 		if (graphUser != null) {
 			return "http://graph.facebook.com/" + graphUser.getId()
-					+ "/picture/";
+					+ "/picture/width=256&height=256";
 		} else {
 			return null;
 		}
