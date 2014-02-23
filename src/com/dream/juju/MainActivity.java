@@ -9,6 +9,7 @@ import com.facebook.model.GraphUser;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 
@@ -74,6 +75,16 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 						}
 					}
 				});
+
+		findViewById(R.id.logo).setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this,
+						FriendsActivity.class);
+				startActivity(intent);
+			}
+		});
 	}
 
 	public void onBackPressed() {
@@ -89,13 +100,15 @@ public class MainActivity extends Activity implements CircularLayoutListener {
 
 	@Override
 	public void onRootClicked(CircularLayoutNode node) {
-		startActivity(new Intent(this, BubbleActivity.class));
+		Intent intent = new Intent(this, UserProfileActivity.class);
+		startActivity(intent);
 	}
 
 	public ImageView newImageView() {
 		ImageView imageView = new ImageView(this);
 		imageView.setImageResource(R.drawable.ic_launcher);
-		circularLayout.addChildView(imageView, (int) (Math.random() * 150 + 50));
+		circularLayout
+				.addChildView(imageView, (int) (Math.random() * 150 + 50));
 		return imageView;
 	}
 }
