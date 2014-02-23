@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <!-- Main sliding panel serves blog -->
+    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/sliding_layout_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        sothree:collapsedHeight="0dp"
+        sothree:shadowHeight="4dp">
+
+        <!-- Nested sliding panel serves gallery -->
+	    <com.sothree.slidinguppanel.SlidingUpPanelLayout
+	        xmlns:sothree="http://schemas.android.com/apk/res-auto"
+	        android:id="@+id/sliding_layout_gallery"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_gravity="bottom"
+	        sothree:collapsedHeight="0dp"
+	        sothree:shadowHeight="4dp">
+
+	        <!-- Main story page: profile image, dream title, dream text -->
+	        <LinearLayout 
+	            android:id="@+id/story"            
+	            android:layout_width="match_parent"
+	            android:layout_height="match_parent"
+	            android:orientation="vertical"
+	            android:background="@drawable/main_bg"
+	            android:clickable="true"
+	            android:focusable="false">
+
+	            <ImageView
+	                android:id="@+id/profile_image"
+	                android:layout_width="match_parent"
+	                android:layout_height="200dp"
+		            android:scaleType="fitStart"/>
+	            
+	            <ImageView
+	                android:id="@+id/dream_image"
+	                android:layout_width="match_parent"
+	                android:layout_height="100dp"
+	                android:scaleType="fitStart"/>
+	            	            	            
+                <TextView
+                    android:id="@+id/dream_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:textColor="#000"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="10dp"/>
+	            	            
+	        </LinearLayout>
+	        
+			<!-- Gallery page - pager with images -->
+		    <android.support.v4.view.ViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+			    android:id="@+id/gallery"
+			    android:layout_width="match_parent"
+	            android:background="#ff0"
+			    android:layout_height="500dp" />
+		    
+		</com.sothree.slidinguppanel.SlidingUpPanelLayout>
+	        	        
+        <!-- Blog - image and some buttons -->
+        <RelativeLayout 
+            android:id="@+id/blog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+            
+			<ImageView
+			    android:id="@+id/blog_image"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:scaleType="fitStart" />
+            				
+			<Button
+                android:id="@+id/blog_post_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:gravity="center_vertical|right"
+                android:paddingRight="10dp"
+                android:paddingLeft="10dp"/>
+            
+        </RelativeLayout>
+	        
+     </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+	        
+</RelativeLayout>
