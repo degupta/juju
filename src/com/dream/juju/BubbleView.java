@@ -22,21 +22,21 @@ public class BubbleView extends View {
 	}
 
 	public static final int TIME_STEP = 50;
-	public static final int NUM_CIRCLE_GROUPS = 7;
-	public static final int NUM_CIRCLES_PER_GROUP = 20;
+	public static final int NUM_CIRCLE_GROUPS = 3;
+	public static final int NUM_CIRCLES_PER_GROUP = 30;
 	public static final int NUM_SUB_GROUPS = 5;
 	public static final float MIN_RADIUS = 50f;
 	public static final float MAX_RADIUS = 150f;
-	public static final float MIN_ALPHA = 0.1f;
-	public static final float MAX_ALPHA = 0.75f;
-	public static final float SPEED = -0.15f;
-	public static final float GROUP_HEIGHT = 700.0f;
+	// public static final float MIN_ALPHA = 0.1f;
+	// public static final float MAX_ALPHA = 0.75f;
+	public static final float SPEED = -0.25f;
+	public static final float GROUP_HEIGHT = 1000.0f;
 	public static final float GROUP_OVERLAP = 100.0f;
 	public static final int START_DREAMING_NO = 10000;
 	public static final int DREAMING_NO_SPEED = 1;
 
 	public static final float RADIUS_DIFF = MAX_RADIUS - MIN_RADIUS;
-	public static final float ALPHA_DIFF = MAX_ALPHA - MIN_ALPHA;
+	// public static final float ALPHA_DIFF = MAX_ALPHA - MIN_ALPHA;
 
 	public static final CircleGroup[] CIRCLE_GROUPS = new CircleGroup[NUM_CIRCLE_GROUPS];
 	public static final Paint PAINT = new Paint();
@@ -91,7 +91,7 @@ public class BubbleView extends View {
 		int red = (int) (Math.random() * 255);
 		int green = (int) (Math.random() * 255);
 		int blue = (int) (Math.random() * 255);
-		int color = 0x00000000 | (red << 16) | (green << 8) | blue;
+		int color = 0x80000000 | (red << 16) | (green << 8) | blue;
 
 		Circle[] circles = g.circles;
 		int len = circles.length;
@@ -101,10 +101,12 @@ public class BubbleView extends View {
 				circles[i] = new Circle();
 				c = circles[i];
 			}
-			int alpha = (int) ((Math.random() * ALPHA_DIFF + MIN_ALPHA) * 255.0f);
-			c.color = color | ((alpha << 24) & 0xFF000000);
+			// int alpha = (int) ((Math.random() * ALPHA_DIFF + MIN_ALPHA) *
+			// 255.0f);
+			// c.color = color | ((alpha << 24) & 0xFF000000);
+			c.color = color;
 			c.radius = (float) (Math.random() * RADIUS_DIFF + MIN_RADIUS);
-			c.x = (float) ((2 * Math.random() - 1) * halfWidth * 0.3f);
+			c.x = (float) ((2 * Math.random() - 1) * halfWidth * 0.5f);
 			c.aX = 0.0f;
 			c.y = GROUP_HEIGHT / len * i;
 			if (c.y + c.radius > GROUP_HEIGHT + GROUP_OVERLAP) {
@@ -133,7 +135,7 @@ public class BubbleView extends View {
 				ordinate = y / height * (CircularLayout.PI_2)
 						- CircularLayout.PI_2 / 2.0f;
 				x = (float) Math.sin(ordinate) * amplitude;
-				x += (2 * Math.random() - 1) * width * 0.001f;
+				x += (2 * Math.random() - 1) * width * 0.0015f;
 				circles[i].aX = x;
 			}
 		}
