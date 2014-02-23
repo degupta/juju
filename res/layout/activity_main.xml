@@ -4,11 +4,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/main_bg" >
 
-    <com.dream.juju.BubbleView
-        android:id="@+id/bubble_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
     <com.dream.juju.CircularLayout
         android:id="@+id/circular_layout"
         android:layout_width="match_parent"

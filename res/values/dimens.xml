@@ -3,5 +3,15 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="login_button_size">115dp</dimen>
+    <dimen name="login_button_overlap">50dp</dimen>
+    <!-- login_button_top = login_button_size - login_button_overlap -->
+    <dimen name="login_button_top">50dp</dimen>
+    <!-- login_button_right = login_button_size - login_button_overlap -->
+    <dimen name="login_button_right">50dp</dimen>
+    <!-- login_button_far_right = 2 * login_button_right -->
+    <dimen name="login_button_far_right">100dp</dimen>
+    <!-- login_button_far_top = 2 * login_button_top -->
+    <dimen name="login_button_far_top">100dp</dimen>
 
 </resources>
